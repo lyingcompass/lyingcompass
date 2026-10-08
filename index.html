@@ -188,37 +188,6 @@ body.lore-only .trk:not([data-lore="1"]){ opacity:.17; }
 .tgl[aria-pressed="true"]{ color:#000; background:var(--accent); border-color:var(--accent); }
 .filter__c{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--dim); text-transform:uppercase; }
 
-
-/* ───────── bispos ───────── */
-.codebar{ margin-top:48px; display:flex; align-items:center; gap:12px 22px; flex-wrap:wrap;
-  border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); padding:13px 0; }
-.codebar__l{ font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); }
-.codebar__d{ display:flex; gap:5px; flex-wrap:wrap; }
-.dig{ appearance:none; border:1px solid transparent; background:none; cursor:pointer;
-  font-family:var(--mono); font-size:14px; letter-spacing:.05em; color:var(--dim); padding:4px 8px;
-  transition:.2s; font-variant-numeric:tabular-nums; }
-.dig:hover{ color:var(--ink); border-color:var(--fog); }
-.dig[aria-pressed="true"]{ color:#000; background:var(--accent); border-color:var(--accent); }
-.codebar__h{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-left:auto; }
-.bsp{ margin-top:42px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair); border:1px solid var(--hair); }
-.bsp__i{ background:var(--bg); padding:22px 20px 26px; transition:background-color .3s, opacity .35s; scroll-margin-top:78px; }
-.bsp__i:hover{ background:color-mix(in srgb,var(--ink) 5%, var(--bg)); }
-.bsp[data-hi] .bsp__i{ opacity:.26; }
-.bsp[data-hi] .bsp__i.on{ opacity:1; }
-.bsp__cv{ width:min(100%,272px); aspect-ratio:1/1; margin:0 auto; }
-.bsp__n{ display:block; margin-top:12px; font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--accent); font-variant-numeric:tabular-nums; }
-.bsp__nm{ font-family:var(--disp); font-weight:800; text-transform:uppercase; letter-spacing:-.035em;
-  font-size:clamp(24px,2.9vw,38px); line-height:1; margin:9px 0 9px; }
-.bsp__meta{ display:block; margin-bottom:12px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
-.bsp__txt{ margin:0; font-size:15px; line-height:1.55; color:var(--dim); }
-.bsp__foot{ margin-top:28px; font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
-.bsp__foot a{ color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; }
-.bsp__foot a:hover{ border-bottom-color:var(--accent); }
-.tag--link{ text-decoration:none; transition:.25s; }
-.tag--link:hover{ background:color-mix(in srgb,var(--accent) 16%, transparent); }
-@media (max-width:900px){ .bsp{ grid-template-columns:repeat(2,1fr); } .codebar__h{ margin-left:0; } }
-@media (max-width:560px){ .bsp{ grid-template-columns:1fr; } }
-
 /* ───────── cruzamentos ───────── */
 .cx{ display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1px; margin-top:52px; background:var(--hair); border:1px solid var(--hair); }
 .cx__i{ background:var(--bg); padding:28px 24px 30px; }
@@ -275,10 +244,32 @@ body.lore-only .trk:not([data-lore="1"]){ opacity:.17; }
   .mech li{ grid-template-columns:1fr; gap:8px; }
   .mech li::before{ padding-top:0; }
 }
+.top__end{ display:flex; align-items:center; gap:10px; }
 .langs{ display:flex; gap:2px; }
 .langs button{ appearance:none; border:1px solid transparent; background:none; color:var(--dim); cursor:pointer; font:inherit; letter-spacing:.16em; padding:5px 7px; transition:.25s; }
 .langs button:hover{ color:var(--ink); }
 .langs button[aria-pressed="true"]{ color:var(--accent); border-color:color-mix(in srgb,var(--accent) 40%,transparent); }
+
+/* ───────── transmissão (áudio ambiente, desligado por padrão) ───────── */
+.tx{
+  appearance:none; background:none; border:1px solid var(--hair); color:var(--dim); cursor:pointer;
+  font:inherit; letter-spacing:.16em; text-transform:uppercase; padding:5px 9px;
+  display:inline-flex; align-items:center; gap:8px; transition:.25s; white-space:nowrap;
+}
+.tx:hover{ color:var(--ink); border-color:var(--fog); }
+.tx:disabled{ opacity:.5; cursor:default; }
+.tx i{ width:5px; height:5px; background:currentColor; display:block; border-radius:50%; opacity:.45; }
+.tx[aria-pressed="true"]{ color:var(--accent); border-color:color-mix(in srgb,var(--accent) 40%,transparent); }
+.tx[aria-pressed="true"] i{ background:var(--accent); opacity:1; animation:txbeat 1.7647s ease-in-out infinite; }
+@keyframes txbeat{
+  0%{ transform:scale(1); opacity:.5 }
+  8%{ transform:scale(2); opacity:1 }
+  22%{ transform:scale(1); opacity:.6 }
+  32%{ transform:scale(1.55); opacity:.9 }
+  48%,100%{ transform:scale(1); opacity:.5 }
+}
+@media (max-width:560px){ .tx span{ display:none; } .tx{ padding:5px 7px; } }
+
 @media (max-width:640px){ .top__where{ display:none; } }
 section[id]{ scroll-margin-top:64px; }
 .era{ scroll-margin-top:64px; }
@@ -292,6 +283,7 @@ section[id]{ scroll-margin-top:64px; }
   .reveal{ opacity:1; transform:none; transition:none; }
   .scrollcue::after{ animation:none; }
   .hero h1 span{ animation:none; opacity:1; transform:none; }
+  .tx[aria-pressed="true"] i{ animation:none; }
   :root{ transition:none; }
   body{ transition:none; }
 }
@@ -304,9 +296,12 @@ section[id]{ scroll-margin-top:64px; }
 <header class="top">
   <span class="top__mark compass"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-opacity=".35"/><path d="M12 4 L14.2 12 L12 10.4 L9.8 12 Z" fill="var(--accent)"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>LYINGCOMPASS <b>|-/</b></span>
   <span class="top__where" id="where">MAPA</span>
-  <nav class="langs" id="langs" aria-label="Idioma / Language / Idioma">
-    <button type="button" data-lang="pt">PT</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button>
-  </nav>
+  <div class="top__end">
+    <button class="tx" id="txBtn" type="button" aria-pressed="false"><i aria-hidden="true"></i><span data-i18n="txLabel">Transmissão</span></button>
+    <nav class="langs" id="langs" aria-label="Idioma / Language / Idioma">
+      <button type="button" data-lang="pt">PT</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button>
+    </nav>
+  </div>
 </header>
 
 <nav class="rail" id="rail" aria-label="Navegar por era"></nav>
@@ -342,23 +337,6 @@ section[id]{ scroll-margin-top:64px; }
     <p class="eyebrow" style="margin-top:60px" data-i18n="tlEyebrow">A história em ordem de acontecimento</p>
     <div id="tl"></div>
   </div>
-</section>
-
-<!-- ══════════ BISPOS ══════════ -->
-<section class="sec" id="bispos">
-  <p class="eyebrow" data-i18n="bispEyebrow">Os nove bispos</p>
-  <h2 data-i18n="bispH2">Nove nomes<br>dentro das<br>letras</h2>
-  <p class="lede" data-i18n="bispLede1">Nove nomes, nove faixas, um código. Cada bispo estava escondido dentro da letra de uma música de <i>Blurryface</i> (2015) — e só em 2018, três anos depois, alguém percebeu que os números dessas faixas, na ordem certa, abriam o dmaorg.info. A ordem aqui embaixo é a ordem do código.</p>
-  <p class="lede" data-i18n="bispLede2">Cada mostrador é desenhado por código, aqui no navegador: a bússola de Dema, com o <b>E</b> em cima. A marca amarela de cada um está exatamente onde aquele bispo não consegue enxergar.</p>
-
-  <div class="codebar">
-    <span class="codebar__l" data-i18n="bispCode">código de violação</span>
-    <div class="codebar__d" id="bspcode"></div>
-    <span class="codebar__h" data-i18n="bispHint">passe o cursor ou toque num dígito</span>
-  </div>
-
-  <div class="bsp" id="bsp"></div>
-  <p class="bsp__foot" data-i18n="bispFoot">As mesmas nove composições circulam como série no Instagram — <a href="https://instagram.com/lyingcompass" target="_blank" rel="noopener">@lyingcompass</a>.</p>
 </section>
 
 <!-- ══════════ DISCOS ══════════ -->
@@ -403,7 +381,7 @@ section[id]{ scroll-margin-top:64px; }
 </section>
 
 <footer class="foot">
-  <div><strong data-i18n="fontes">FONTES</strong> — Kerrang! (bastidores 2015; análise de <em>Breach</em>, set/2025) · Melodic Magazine (guia do lore, ago/2025; resenha faixa a faixa, set/2025) · Wikipédia (<em>Trench</em>, <em>Clancy</em>, <em>Breach</em>) · Billboard · RIAA · Twenty One Pilots Wiki e a documentação de <a href="http://dmaorg.info" target="_blank" rel="noopener">dmaorg.info</a> · Pitchfork, Clash, AllMusic, Louder.</div>
+  <div><strong data-i18n="fontes">FONTES</strong> <span data-i18n="fontesList">— Kerrang! (bastidores 2015; análise de <em>Breach</em>, set/2025) · Melodic Magazine (guia do lore, ago/2025; resenha faixa a faixa, set/2025) · Wikipédia (<em>Trench</em>, <em>Clancy</em>, <em>Breach</em>) · Billboard · RIAA · Twenty One Pilots Wiki e a documentação de <a href="http://dmaorg.info" target="_blank" rel="noopener">dmaorg.info</a> · Pitchfork, Clash, AllMusic, Louder.</span></div>
   <div style="margin-top:14px" data-i18n="credit"></div>
   <p class="foot__care" data-i18n="care">Boa parte deste material passa por temas pesados — o vialismo, <em>Neon Gravestones</em>, <em>Redecorate</em>. Se em algum momento isso deixar de ser análise e virar pessoal, procure alguém. No Brasil, o CVV atende de graça, 24h, no 188.</p>
 </footer>
@@ -437,19 +415,23 @@ const UI = {
   metaCode:{ pt:"código de violação <b>15398642_14</b>", en:"violation code <b>15398642_14</b>", es:"código de violación <b>15398642_14</b>" },
   fan:{ pt:"projeto de fã · não oficial", en:"fan project · unofficial", es:"proyecto de fans · no oficial" },
   scrollcue:{ pt:"Desça para atravessar", en:"Scroll down to cross over", es:"Baja para cruzar" },
+  txLabel:{ pt:"Transmissão", en:"Transmission", es:"Transmisión" },
+  txAria:{ pt:"Transmissão de Dema — áudio ambiente gerado no navegador. Desligado por padrão.",
+           en:"Dema transmission — ambient audio generated in the browser. Off by default.",
+           es:"Transmisión de Dema — audio ambiente generado en el navegador. Apagado por defecto." },
   mapaEyebrow:{ pt:"O mapa", en:"The map", es:"El mapa" },
   mapaH2:{ pt:"Antes das<br>músicas, o<br>vocabulário", en:"Before the<br>songs, the<br>vocabulary", es:"Antes de las<br>canciones, el<br>vocabulario" },
   mapaLede1:{ pt:"Metade das faixas não abre sem isso. Dema é uma cidade circular murada dentro do continente Trench, governada por nove bispos que pregam o vialismo. Clancy quer sair. É essa a história inteira — e é também, ao mesmo tempo, um mapa da cabeça do Tyler Joseph.",
-              en:"Half the tracks won't open without this. Dema is a circular walled city inside the continent of Trench, ruled by nine bishops who preach Vialism. Clancy wants out. That's the whole story — and it is also, at the same time, a map of Tyler Joseph's mind.",
+              en:"Half the tracks won’t open without this. Dema is a circular walled city inside the continent of Trench, ruled by nine bishops who preach Vialism. Clancy wants out. That’s the whole story — and it is also, at the same time, a map of Tyler Joseph’s mind.",
               es:"La mitad de las canciones no se abren sin esto. Dema es una ciudad circular amurallada dentro del continente Trench, gobernada por nueve obispos que predican el vialismo. Clancy quiere salir. Esa es toda la historia — y es también, al mismo tiempo, un mapa de la cabeza de Tyler Joseph." },
   mapaLede2:{ pt:"A banda nunca explica as letras. É literalmente o tema de <em>Message Man</em>. Então o que existe é interpretação: aqui, o que a banda confirmou vem marcado; o resto é leitura consolidada da fanbase mais análise.",
-              en:"The band never explains the lyrics. It's literally what <em>Message Man</em> is about. So what exists is interpretation: here, whatever the band has confirmed is marked; the rest is the fanbase's consolidated reading plus analysis.",
+              en:"The band never explains the lyrics. It’s literally what <em>Message Man</em> is about. So what exists is interpretation: here, whatever the band has confirmed is marked; the rest is the fanbase’s consolidated reading plus analysis.",
               es:"La banda nunca explica las letras. Es literalmente el tema de <em>Message Man</em>. Así que lo que existe es interpretación: aquí, lo que la banda confirmó viene marcado; el resto es la lectura consolidada del fandom más análisis." },
   tlEyebrow:{ pt:"A história em ordem de acontecimento", en:"The story in the order it happens", es:"La historia en orden de los hechos" },
   discosEyebrow:{ pt:"Os discos", en:"The albums", es:"Los discos" },
   discosH2:{ pt:"Oito eras", en:"Eight eras", es:"Ocho eras" },
   discosLede:{ pt:"Cada era tem um fundo gerado por código — não é a capa do disco, é uma composição original que traduz o significado dele. A nota ao lado de cada uma explica o que a imagem está dizendo.",
-               en:"Every era has a code-generated backdrop — it isn't the album cover, it's an original composition that translates what the album means. The note beside each one explains what the image is saying.",
+               en:"Every era has a code-generated backdrop — it isn’t the album cover, it’s an original composition that translates what the album means. The note beside each one explains what the image is saying.",
                es:"Cada era tiene un fondo generado por código — no es la portada del disco, es una composición original que traduce su significado. La nota junto a cada una explica qué está diciendo la imagen." },
   discosNote:{ pt:"", en:"", es:"" },
   loreBtn:{ pt:"⟡ Mostrar só o lore", en:"⟡ Show only the lore", es:"⟡ Mostrar solo el lore" },
@@ -460,36 +442,22 @@ const UI = {
   segEyebrow:{ pt:"O segredo", en:"The secret", es:"El secreto" },
   segH2:{ pt:"Por que<br>funcionou", en:"Why it<br>worked", es:"Por qué<br>funcionó" },
   tese:{ pt:"Eles não venderam música nem venderam lore. Transformaram a insegurança numa <em>tecnologia de participação</em> — pegaram um sentimento privado e paralisante e deram a ele nome, rosto e endereço, para que pudesse ser combatido em grupo.",
-         en:"They didn't sell music, and they didn't sell lore. They turned insecurity into a <em>technology of participation</em> — they took a private, paralyzing feeling and gave it a name, a face and an address, so it could be fought as a group.",
+         en:"They didn’t sell music, and they didn’t sell lore. They turned insecurity into a <em>technology of participation</em> — they took a private, paralyzing feeling and gave it a name, a face and an address, so it could be fought as a group.",
          es:"No vendieron música ni vendieron lore. Convirtieron la inseguridad en una <em>tecnología de participación</em>: tomaron un sentimiento privado y paralizante y le dieron nombre, rostro y dirección, para poder combatirlo en grupo." },
-  warnEyebrow:{ pt:"O que não se copia", en:"What can't be copied", es:"Lo que no se copia" },
-  warnLede:{ pt:"Se você está olhando isso como estudo de caso, a contraparte honesta:", en:"If you're reading this as a case study, the honest counterpoint:", es:"Si estás mirando esto como caso de estudio, la contraparte honesta:" },
+  warnEyebrow:{ pt:"O que não se copia", en:"What can’t be copied", es:"Lo que no se copia" },
+  warnLede:{ pt:"Se você está olhando isso como estudo de caso, a contraparte honesta:", en:"If you’re reading this as a case study, the honest counterpoint:", es:"Si estás mirando esto como caso de estudio, la contraparte honesta:" },
   imgLabel:{ pt:"A imagem", en:"The image", es:"La imagen" },
-  close:{ pt:"A fraqueza não foi superada nem escondida. Virou infraestrutura.", en:"The weakness wasn't overcome or hidden. It became infrastructure.", es:"La debilidad no fue superada ni escondida. Se volvió infraestructura." },
+  close:{ pt:"A fraqueza não foi superada nem escondida. Virou infraestrutura.", en:"The weakness wasn’t overcome or hidden. It became infrastructure.", es:"La debilidad no fue superada ni escondida. Se volvió infraestructura." },
   fontes:{ pt:"FONTES", en:"SOURCES", es:"FUENTES" },
-  credit:{ pt:"lyingcompass.com — projeto de fã, sem afiliação com Twenty One Pilots, Fueled by Ramen ou Warner Music. Site e composições feitos com Claude Fable 5 (Anthropic); todas as imagens são geradas por algoritmo, originais — nenhuma arte oficial foi reproduzida. Navegue também com as setas ← e →. Agosto de 2026.",
-           en:"lyingcompass.com — a fan project, not affiliated with Twenty One Pilots, Fueled by Ramen or Warner Music. Site and compositions made with Claude Fable 5 (Anthropic); every image is algorithmically generated and original — no official artwork was reproduced. You can also navigate with the ← and → keys. August 2026.",
-           es:"lyingcompass.com — proyecto de fans, sin afiliación con Twenty One Pilots, Fueled by Ramen ni Warner Music. Sitio y composiciones hechos con Claude Fable 5 (Anthropic); todas las imágenes son generadas por algoritmo, originales — no se reprodujo arte oficial. También puedes navegar con las flechas ← y →. Agosto de 2026." },
+  fontesList:{ pt:"— Kerrang! (bastidores 2015; análise de <em>Breach</em>, set/2025) · Melodic Magazine (guia do lore, ago/2025; resenha faixa a faixa, set/2025) · Wikipédia (<em>Trench</em>, <em>Clancy</em>, <em>Breach</em>) · Billboard · RIAA · Twenty One Pilots Wiki e a documentação de <a href='http://dmaorg.info' target='_blank' rel='noopener'>dmaorg.info</a> · Pitchfork, Clash, AllMusic, Louder.",
+               en:"— Kerrang! (2015 behind the scenes; <em>Breach</em> review, Sep 2025) · Melodic Magazine (lore guide, Aug 2025; track-by-track review, Sep 2025) · Wikipedia (<em>Trench</em>, <em>Clancy</em>, <em>Breach</em>) · Billboard · RIAA · the Twenty One Pilots Wiki and the documentation at <a href='http://dmaorg.info' target='_blank' rel='noopener'>dmaorg.info</a> · Pitchfork, Clash, AllMusic, Louder.",
+               es:"— Kerrang! (entre bastidores 2015; análisis de <em>Breach</em>, sep 2025) · Melodic Magazine (guía del lore, ago 2025; reseña canción por canción, sep 2025) · Wikipedia (<em>Trench</em>, <em>Clancy</em>, <em>Breach</em>) · Billboard · RIAA · la Twenty One Pilots Wiki y la documentación de <a href='http://dmaorg.info' target='_blank' rel='noopener'>dmaorg.info</a> · Pitchfork, Clash, AllMusic, Louder." },
+  credit:{ pt:"lyingcompass.com — projeto de fã, sem afiliação com Twenty One Pilots, Fueled by Ramen ou Warner Music. Site e composições feitos com Claude Fable 5 (Anthropic); todas as imagens são geradas por algoritmo, originais — nenhuma arte oficial foi reproduzida. A transmissão é sintetizada no navegador em tempo real: nenhuma gravação de terceiros é tocada aqui. Navegue também com as setas ← e →. Agosto de 2026.",
+           en:"lyingcompass.com — a fan project, not affiliated with Twenty One Pilots, Fueled by Ramen or Warner Music. Site and compositions made with Claude Fable 5 (Anthropic); every image is algorithmically generated and original — no official artwork was reproduced. The transmission is synthesized in your browser in real time: no third-party recording is played here. You can also navigate with the ← and → keys. August 2026.",
+           es:"lyingcompass.com — proyecto de fans, sin afiliación con Twenty One Pilots, Fueled by Ramen ni Warner Music. Sitio y composiciones hechos con Claude Fable 5 (Anthropic); todas las imágenes son generadas por algoritmo, originales — no se reprodujo arte oficial. La transmisión se sintetiza en el navegador en tiempo real: aquí no suena ninguna grabación de terceros. También puedes navegar con las flechas ← y →. Agosto de 2026." },
   care:{ pt:"Boa parte deste material passa por temas pesados — o vialismo, <em>Neon Gravestones</em>, <em>Redecorate</em>. Se em algum momento isso deixar de ser análise e virar pessoal, procure alguém. No Brasil, o CVV atende de graça, 24h, no 188.",
          en:"A lot of this material touches heavy themes — Vialism, <em>Neon Gravestones</em>, <em>Redecorate</em>. If at any point this stops being analysis and becomes personal, please reach out to someone. In Brazil, CVV is free, 24h, at 188; wherever you are, your local crisis line is there for you.",
          es:"Buena parte de este material toca temas pesados — el vialismo, <em>Neon Gravestones</em>, <em>Redecorate</em>. Si en algún momento esto deja de ser análisis y se vuelve personal, busca a alguien. En Brasil, el CVV atiende gratis, 24 h, en el 188; estés donde estés, tu línea de ayuda local está para ti." },
-  bispEyebrow:{ pt:"Os nove bispos", en:"The nine bishops", es:"Los nueve obispos" },
-  bispH2:{ pt:"Nove nomes<br>dentro das<br>letras", en:"Nine names<br>inside the<br>lyrics", es:"Nueve nombres<br>dentro de<br>las letras" },
-  bispLede1:{ pt:"Nove nomes, nove faixas, um código. Cada bispo estava escondido dentro da letra de uma música de <i>Blurryface</i> (2015) — e só em 2018, três anos depois, alguém percebeu que os números dessas faixas, na ordem certa, abriam o dmaorg.info. A ordem aqui embaixo é a ordem do código.",
-              en:"Nine names, nine tracks, one code. Each bishop was hidden inside the lyrics of a song on <i>Blurryface</i> (2015) — and only in 2018, three years later, did anyone notice that those track numbers, in the right order, opened dmaorg.info. The order below is the order of the code.",
-              es:"Nueve nombres, nueve canciones, un código. Cada obispo estaba escondido dentro de la letra de una canción de <i>Blurryface</i> (2015) — y solo en 2018, tres años después, alguien notó que los números de esas canciones, en el orden correcto, abrían dmaorg.info. El orden de abajo es el orden del código." },
-  bispLede2:{ pt:"Cada mostrador é desenhado por código, aqui no navegador: a bússola de Dema, com o <b>E</b> em cima. A marca amarela de cada um está exatamente onde aquele bispo não consegue enxergar.",
-              en:"Every dial is drawn by code, right here in the browser: Dema's compass, with <b>E</b> at the top. The yellow mark on each one sits exactly where that bishop cannot see.",
-              es:"Cada esfera está dibujada por código, aquí mismo en el navegador: la brújula de Dema, con la <b>E</b> arriba. La marca amarilla de cada una está justo donde ese obispo no puede ver." },
-  bispCode:{ pt:"código de violação", en:"breach code", es:"código de violación" },
-  bispHint:{ pt:"passe o cursor ou toque num dígito", en:"hover or tap a digit", es:"pasa el cursor o toca un dígito" },
-  bispHidden:{ pt:"oculto em", en:"hidden in", es:"oculto en" },
-  bispTrack:{ pt:"faixa", en:"track", es:"pista" },
-  bispFoot:{ pt:"As mesmas nove composições circulam como série no Instagram — <a href=\"https://instagram.com/lyingcompass\" target=\"_blank\" rel=\"noopener\">@lyingcompass</a>.",
-             en:"The same nine compositions run as a series on Instagram — <a href=\"https://instagram.com/lyingcompass\" target=\"_blank\" rel=\"noopener\">@lyingcompass</a>.",
-             es:"Las mismas nueve composiciones circulan como serie en Instagram — <a href=\"https://instagram.com/lyingcompass\" target=\"_blank\" rel=\"noopener\">@lyingcompass</a>." },
-  navBisp:{ pt:"BISPOS", en:"BISHOPS", es:"OBISPOS" },
-  whereBisp:{ pt:"OS NOVE BISPOS", en:"THE NINE BISHOPS", es:"LOS NUEVE OBISPOS" },
   navMapa:{ pt:"MAPA", en:"MAP", es:"MAPA" },
   navCruz:{ pt:"CRUZ", en:"LINKS", es:"CRUCES" },
   navTese:{ pt:"TESE", en:"THESIS", es:"TESIS" },
@@ -500,59 +468,59 @@ const UI = {
 /* ---------- traduções do conteúdo (en / es; o pt fica nos dados) ---------- */
 const I18N = {
 gloss:[
- { d:{en:"The continent. Wild, green, out of control. It's where you are when you escape.", es:"El continente. Salvaje, verde, fuera de control. Es donde estás cuando escapas."} },
+ { d:{en:"The continent. Wild, green, out of control. It’s where you are when you escape.", es:"El continente. Salvaje, verde, fuera de control. Es donde estás cuando escapas."} },
  { d:{en:"A circular walled city, nine districts, nine towers. The name comes from <i>dakhma</i>, the Zoroastrian tower of silence where the dead were laid out.", es:"Ciudad circular amurallada, nueve distritos, nueve torres. El nombre viene de <i>dakhma</i>, la torre del silencio zoroastriana donde se depositaban los muertos."} },
  { t:{en:"The nine bishops", es:"Los nueve obispos"}, d:{en:"Nico, Andre, Lisden, Keons, Reisdro, Sacarver, Nills, Vetomo and Listo. They rule Dema and cannot see the color yellow.", es:"Nico, Andre, Lisden, Keons, Reisdro, Sacarver, Nills, Vetomo y Listo. Gobiernan Dema y no ven el color amarillo."} },
  { d:{en:"The head bishop. <b>He is Blurryface</b> — confirmed by Tyler. Full name Nicolas Bourbaki: the collective pseudonym of a group of French mathematicians. In other words, a name that is actually many people.", es:"El obispo jefe. <b>Es Blurryface</b> — confirmado por Tyler. Nombre completo Nicolas Bourbaki: el seudónimo colectivo de un grupo de matemáticos franceses. Es decir, un nombre que en realidad son muchas personas."} },
- { t:{en:"Vialism", es:"Vialismo"}, d:{en:"Dema's official religion. It teaches that taking your own life is the only way to paradise. <b>It is the villain's ideology</b> — hold on to that, it's the moral key to everything.", es:"La religión oficial de Dema. Enseña que quitarse la vida es el único camino al paraíso. <b>Es la ideología del villano</b> — guarda eso, es la clave moral de todo."} },
+ { t:{en:"Vialism", es:"Vialismo"}, d:{en:"Dema’s official religion. It teaches that taking your own life is the only way to paradise. <b>It is the villain’s ideology</b> — hold on to that, it’s the moral key to everything.", es:"La religión oficial de Dema. Enseña que quitarse la vida es el único camino al paraíso. <b>Es la ideología del villano</b> — guarda eso, es la clave moral de todo."} },
  { d:{en:"The resistance. Color: <span class='hex'>#FCE300</span>, exactly the shade the bishops cannot see.", es:"La resistencia. Color: <span class='hex'>#FCE300</span>, exactamente el tono que los obispos no pueden ver."} },
  { d:{en:"The protagonist, played by Tyler. A Dema resident who became known for writing letters about life inside.", es:"El protagonista, interpretado por Tyler. Habitante de Dema conocido por escribir cartas sobre la vida allí dentro."} },
  { d:{en:"The leader of the Banditos, played by Josh. He shows up when Clancy is at his limit.", es:"El líder de los Banditos, interpretado por Josh. Aparece cuando Clancy está al límite."} },
- { d:{en:"Coating someone's body with black paint to control them. That's why Tyler painted his neck and hands in the Blurryface era.", es:"Cubrir el cuerpo de alguien con pintura negra para controlarlo. Por eso Tyler se pintaba el cuello y las manos en la era Blurryface."} },
+ { d:{en:"Coating someone’s body with black paint to control them. That’s why Tyler painted his neck and hands in the Blurryface era.", es:"Cubrir el cuerpo de alguien con pintura negra para controlarlo. Por eso Tyler se pintaba el cuello y las manos en la era Blurryface."} },
  { d:{en:"Possessing a dead body. A power Clancy gains on the island of Voldsøy.", es:"Poseer el cuerpo de un muerto. Poder que Clancy gana en la isla de Voldsøy."} },
  { d:{en:"Those who gave in to Vialism. Their bodies become vessels used by the bishops.", es:"Quienes cedieron al vialismo. Sus cuerpos se vuelven recipientes usados por los obispos."} },
- { d:{en:"Dema's compass is deliberately distorted to sabotage escapes.", es:"La brújula de Dema está distorsionada a propósito para sabotear las fugas."} },
+ { d:{en:"Dema’s compass is deliberately distorted to sabotage escapes.", es:"La brújula de Dema está distorsionada a propósito para sabotear las fugas."} },
  { d:{en:"The secret website fans found in April 2018, hidden inside a GIF on the official store. It was the ARG that launched <i>Trench</i>.", es:"El sitio secreto que los fans encontraron en abril de 2018, escondido dentro de un GIF en la tienda oficial. Fue el ARG que lanzó <i>Trench</i>."} },
  { d:{en:"The fanbase. A name the fans gave themselves, back in the <i>Regional at Best</i> era.", es:"El fandom. Nombre que los propios fans se dieron, en la era de <i>Regional at Best</i>."} }
 ],
 timeline:[
  { n:{en:"before", es:"antes"}, t:{en:"Clancy writes", es:"Clancy escribe"}, d:{en:"He has lived in Dema for years, starts doubting Vialism and becomes known for the letters he writes about the city.", es:"Vive en Dema desde hace años, empieza a dudar del vialismo y se hace conocido por las cartas que escribe sobre la ciudad."} },
  { t:{en:"Insecurity gets a name", es:"La inseguridad gana nombre"}, d:{en:"The <i>Heavydirtysoul</i> video shows the second escape attempt: the car burning on the road, Josh playing in the middle of the lane.", es:"El video de <i>Heavydirtysoul</i> muestra el segundo intento de fuga: el auto en llamas en la carretera, Josh tocando en medio de la vía."} },
- { t:{en:"Hunted and rescued", es:"Cazado y rescatado"}, d:{en:"<i>Jumpsuit</i>: he wakes up in Trench and is caught by Nico on horseback, who marks him with paint. <i>Nico and the Niners</i>: the Banditos pull him out through tunnels during a ritual. <i>Levitate</i>: he is initiated — and recaptured.", es:"<i>Jumpsuit</i>: despierta en Trench y Nico lo alcanza a caballo y lo marca con pintura. <i>Nico and the Niners</i>: los Banditos lo sacan por túneles durante un ritual. <i>Levitate</i>: es iniciado — y recapturado."} },
+ { t:{en:"Hunted and rescued", es:"Cazado y rescatado"}, d:{en:"<i>Jumpsuit</i>: He wakes up in Trench and is caught by Nico on horseback, who marks him with paint. <i>Nico and the Niners</i>: The Banditos pull him out through tunnels during a ritual. <i>Levitate</i>: He is initiated — and recaptured.", es:"<i>Jumpsuit</i>: Despierta en Trench y Nico lo alcanza a caballo y lo marca con pintura. <i>Nico and the Niners</i>: Los Banditos lo sacan por túneles durante un ritual. <i>Levitate</i>: Es iniciado — y recapturado."} },
  { t:{en:"Forced to smile", es:"Obligado a sonreír"}, d:{en:"Back in Dema, forced to perform on a propaganda show. Bishop Keons betrays the others, frees them both and dies for it. On Voldsøy, Clancy gains the power to possess bodies.", es:"De vuelta en Dema, obligado a presentarse en un programa de propaganda. El obispo Keons traiciona a los demás, los libera y muere por eso. En Voldsøy, Clancy gana el poder de poseer cuerpos."} },
  { t:{en:"The crossing", es:"La travesía"}, d:{en:"He returns to Trench, recruits, reunites with the Torchbearer and storms the central tower. <i>Paladin Strait</i> ends with Nico grabbing him by the neck.", es:"Vuelve a Trench, recluta, reencuentra al Torchbearer e invade la torre central. <i>Paladin Strait</i> termina con Nico agarrándolo del cuello."} },
- { t:{en:"The ending that isn't one", es:"El final que no es final"}, d:{en:"<i>City Walls</i>: Clancy defeats Blurryface — and puts on a bishop's red robe. The Torchbearer refuses to follow him, says that isn't Clancy anymore and that they'll try again. In the final seconds, the intro of <i>Heavydirtysoul</i> plays. The cycle restarts in 2015.", es:"<i>City Walls</i>: Clancy derrota a Blurryface — y se pone el manto rojo de obispo. El Torchbearer se niega a seguirlo, dice que ese ya no es Clancy y que lo intentarán de nuevo. En los segundos finales suena la introducción de <i>Heavydirtysoul</i>. El ciclo recomienza en 2015."} }
+ { t:{en:"The ending that isn’t one", es:"El final que no es final"}, d:{en:"<i>City Walls</i>: Clancy defeats Blurryface — and puts on a bishop’s red robe. The Torchbearer refuses to follow him, says that’s not Clancy anymore and that they’ll try again. In the final seconds, the intro of <i>Heavydirtysoul</i> plays. The cycle restarts in 2015.", es:"<i>City Walls</i>: Clancy derrota a Blurryface — y se pone el manto rojo de obispo. El Torchbearer se niega a seguirlo, dice que ese ya no es Clancy y que lo intentarán de nuevo. En los segundos finales suena la introducción de <i>Heavydirtysoul</i>. El ciclo recomienza en 2015."} }
 ],
 albums:{
 "2009":{ date:{en:"DEC 29",es:"29 DIC"}, kind:{en:"independent · original lineup",es:"independiente · formación original"},
- tema:{en:"Faith, doubt, and the fear of wasting your one life.",es:"Fe, duda y el miedo a desperdiciar la propia vida."},
- txt:[ {en:"Recorded in his parents' basement in Columbus, with a four-person lineup — Josh Dun isn't in the band yet. Piano, spoken poetry and first-person theology.", es:"Grabado en el sótano de la casa de sus padres, en Columbus, con una formación de cuatro personas — Josh Dun aún no existe en la banda. Piano, poesía hablada y teología en primera persona."},
+ tema:{en:"Faith, doubt and the fear of wasting your one life.",es:"Fe, duda y el miedo a desperdiciar la propia vida."},
+ txt:[ {en:"Recorded in his parents’ basement in Columbus, with a four-person lineup — Josh Dun isn’t in the band yet. Piano, spoken poetry and first-person theology.", es:"Grabado en el sótano de la casa de sus padres, en Columbus, con una formación de cuatro personas — Josh Dun aún no existe en la banda. Piano, poesía hablada y teología en primera persona."},
        {en:"No lore. But practically every theme of the next sixteen years is already here.", es:"Nada de lore. Pero prácticamente todos los temas de los siguientes dieciséis años ya están aquí."} ],
- img:{en:"Dozens of wing marks scattered on the ground and only three rising, under candlelight coming from below. It's the <i>Isle of Flightless Birds</i>: potential that was never used.", es:"Decenas de marcas de alas esparcidas por el suelo y solo tres subiendo, bajo una luz de vela que viene de abajo. Es la <i>Isle of Flightless Birds</i>: potencial que nunca se usó."},
+ img:{en:"Dozens of wing marks scattered on the ground and only three rising, under candlelight coming from below. It’s the <i>Isle of Flightless Birds</i>: potential that was never used.", es:"Decenas de marcas de alas esparcidas por el suelo y solo tres subiendo, bajo una luz de vela que viene de abajo. Es la <i>Isle of Flightless Birds</i>: potencial que nunca se usó."},
  facts:[ {en:"14 tracks",es:"14 canciones"}, {en:"self-released",es:"autoeditado"}, {en:"Columbus, Ohio",es:"Columbus, Ohio"} ] },
 "2011":{ date:{en:"JUL 08",es:"08 JUL"}, kind:{en:"independent · pulled from circulation",es:"independiente · retirado de circulación"},
  tema:{en:"Artistic identity and the fear of becoming a product.",es:"Identidad artística y el miedo a convertirse en producto."},
  txt:[ {en:"The transition album — Josh Dun joins the band in this period. It was pulled from stores when they signed with Fueled by Ramen, and six tracks were re-recorded for <i>Vessel</i>, which turned the album into an absurd cult object.", es:"El disco de transición — Josh Dun entra a la banda en este período. Fue retirado de las tiendas cuando firmaron con Fueled by Ramen, y seis canciones se regrabaron para <i>Vessel</i>, lo que convirtió el álbum en un objeto de culto absurdo."},
        {en:"This is where the Skeleton Clique and the skull aesthetic are born.", es:"Aquí nacen el Skeleton Clique y la estética de las calaveras."} ],
- img:{en:"A regular grid of identical dots — the <i>regional</i> — and a single node with concentric waves rippling out. It's <i>Kitchen Sink</i>: the private meaning nobody else can see.", es:"Una cuadrícula regular de puntos idénticos — lo <i>regional</i> — y un único nodo con ondas concéntricas propagándose. Es <i>Kitchen Sink</i>: el significado privado que nadie más ve."},
+ img:{en:"A regular grid of identical dots — the <i>regional</i> — and a single node with concentric waves rippling out. It’s <i>Kitchen Sink</i>: the private meaning nobody else can see.", es:"Una cuadrícula regular de puntos idénticos — lo <i>regional</i> — y un único nodo con ondas concéntricas propagándose. Es <i>Kitchen Sink</i>: el significado privado que nadie más ve."},
  facts:[ {en:"14 tracks",es:"14 canciones"}, {en:"8 exclusives",es:"8 exclusivas"}, {en:"off streaming",es:"fuera del streaming"} ] },
 "2013":{ date:{en:"JAN 08",es:"08 ENE"}, kind:{en:"Fueled by Ramen · major-label debut",es:"Fueled by Ramen · debut en una major"},
  tema:{en:"The body as a vessel.",es:"El cuerpo como recipiente."},
- txt:[ {en:"<i>Vessel</i> means container. The body that holds the soul; the person who carries things they didn't choose.", es:"<i>Vessel</i> es vasija, recipiente. El cuerpo que guarda el alma; la persona que carga cosas que no eligió."},
-       {en:"It's the album where they decide they won't pick a genre. In 2019 it became their second album with every track RIAA-certified — a feat no other band had pulled off with two albums.", es:"Es el disco en el que deciden que no van a elegir un género. En 2019 se convirtió en su segundo álbum con todas las canciones certificadas por la RIAA — algo que ninguna otra banda había logrado con dos discos."} ],
+ txt:[ {en:"<i>Vessel</i> means container. The body that holds the soul; the person who carries things they didn’t choose.", es:"<i>Vessel</i> es vasija, recipiente. El cuerpo que guarda el alma; la persona que carga cosas que no eligió."},
+       {en:"It’s the album where they decide they won’t pick a genre. In 2019, it became their second album with every track RIAA-certified — a feat no other band had pulled off with two albums.", es:"Es el disco en el que deciden que no van a elegir un género. En 2019 se convirtió en su segundo álbum con todas las canciones certificadas por la RIAA — algo que ninguna otra banda había logrado con dos discos."} ],
  img:{en:"Concentric vessels filled to different levels, some with fine cracks. What fits inside a person, and where it leaks.", es:"Recipientes concéntricos llenos a distintos niveles, algunos con grietas finas. Lo que cabe dentro de una persona, y por dónde se escapa."},
  facts:[ {en:"12 tracks",es:"12 canciones"}, {en:"2nd fully-certified album",es:"2º álbum 100% certificado"}, {en:"Car Radio · Trees · Truce",es:"Car Radio · Trees · Truce"} ] },
 "2015":{ date:{en:"MAY 17",es:"17 MAY"}, kind:{en:"the turning point · lore chapter 1",es:"el punto de inflexión · capítulo 1 del lore"},
- tema:{en:"Insecurity gets a body, a name, and a voice of its own.",es:"La inseguridad gana cuerpo, nombre y voz propia."},
- txt:[ {en:"Blurryface is the alter ego embodying everything Tyler dislikes in himself. On stage, neck and hands painted black — which only in 2018 we learned was <i>smearing</i>, the mark of those the bishops control.", es:"Blurryface es el álter ego que representa todo lo que a Tyler no le gusta de sí mismo. En el escenario, cuello y manos pintados de negro — que solo en 2018 descubrimos que era el <i>smearing</i>, la marca de quienes los obispos controlan."},
-       {en:"It's also an album about the price of fame arriving in real time, written while it arrived.", es:"Es también un disco sobre el precio de la fama llegando en tiempo real, escrito mientras llegaba."},
-       {en:"<b>The most elegant lore detail of their career:</b> the cover has nine circles, each one is a track, and a bishop's name is hidden inside that track's lyrics. It was only revealed three years later. The track numbers form the code that opened the secret website: 1-5-3-9-8-6-4-2_14.", es:"<b>El detalle de lore más elegante de su carrera:</b> la portada tiene nueve círculos, cada uno es una canción, y el nombre de un obispo está escondido dentro de la letra de esa canción. Solo se reveló tres años después. Los números de las canciones forman el código que abrió el sitio secreto: 1-5-3-9-8-6-4-2_14."} ],
+ tema:{en:"Insecurity gets a body, a name and a voice of its own.",es:"La inseguridad gana cuerpo, nombre y voz propia."},
+ txt:[ {en:"Blurryface is the alter ego embodying everything Tyler dislikes in himself. On stage, neck and hands painted black — which only in 2018 we learned was <i>smearing</i>, the mark of those the bishops control.", es:"Blurryface es el álter ego que representa todo lo que a Tyler no le gusta de sí mismo. En el escenario, cuello y manos pintados de negro — que solo en 2018 descubrimos que era el <i>smearing</i>, la marca de aquellos a quienes controlan los obispos."},
+       {en:"It’s also an album about the price of fame arriving in real time, written while it arrived.", es:"Es también un disco sobre el precio de la fama llegando en tiempo real, escrito mientras llegaba."},
+       {en:"<b>The most elegant lore detail of their career:</b> the cover has nine circles, each one is a track, and a bishop’s name is hidden inside that track’s lyrics. It was only revealed three years later. The track numbers form the code that opened the secret website: 1-5-3-9-8-6-4-2_14.", es:"<b>El detalle de lore más elegante de su carrera:</b> la portada tiene nueve círculos, cada uno es una canción, y el nombre de un obispo está escondido dentro de la letra de esa canción. Solo se reveló tres años después. Los números de las canciones forman el código que abrió el sitio secreto: 1-5-3-9-8-6-4-2_14."} ],
  img:{en:"Nine blurred nodes linked by thin threads, with black paint dripping from the top edge. The nine bishops still unnamed, and the <i>smearing</i> already happening.", es:"Nueve nodos borrosos unidos por hilos finos, con pintura negra escurriendo desde el borde superior. Los nueve obispos aún sin nombre, y el <i>smearing</i> ya ocurriendo."},
  facts:[ {en:"#1 in the US",es:"#1 en EE. UU."}, {en:"1st fully-certified album of the digital era",es:"1er álbum 100% certificado de la era digital"}, {en:"6× Platinum",es:"6× platino"}, {en:"Stressed Out: Diamond",es:"Stressed Out: diamante"}, {en:"2017 Grammy",es:"Grammy 2017"} ] },
 "2018":{ date:{en:"OCT 05",es:"05 OCT"}, kind:{en:"the world-building",es:"la construcción del mundo"},
  tema:{en:"Surviving with company.",es:"Sobrevivir acompañado."},
  txt:[ {en:"After a year of absolute silence — they wiped their social media — they came back with an entire world.", es:"Después de un año de silencio absoluto — borraron sus redes — volvieron con un mundo entero."},
-       {en:"The album isn't about being cured. It's about living with the illness without letting it win, and about the responsibility of having an audience.", es:"El disco no va de curarse. Va de convivir con la enfermedad sin que gane, y de la responsabilidad de tener público."},
+       {en:"The album isn’t about being cured. It’s about living with the illness without letting it win, and about the responsibility of having an audience.", es:"El disco no va de curarse. Va de convivir con la enfermedad sin que gane, y de la responsabilidad de tener público."},
        {en:"This is where the yellow #FCE300, the dmaorg.info ARG and the trilogy of videos are born.", es:"Aquí nacen el amarillo #FCE300, el ARG de dmaorg.info y los videos en trilogía."} ],
  img:{en:"The brick wall with nine towers and one breach. The yellow petals live <b>on the outside</b> — and a stream of them escapes through the opening. Inside the wall, a single petal: the escape has begun.", es:"La muralla de ladrillos con nueve torres y una brecha. Los pétalos amarillos viven <b>del lado de afuera</b> — y una corriente de ellos escapa por la abertura. Dentro del muro, un solo pétalo: la fuga ha comenzado."},
  facts:[ {en:"14 tracks",es:"14 canciones"}, {en:"Platinum",es:"platino"}, {en:"dmaorg.info",es:"dmaorg.info"}, {en:"Jumpsuit: Grammy-nominated",es:"Jumpsuit: nominada al Grammy"} ] },
@@ -560,74 +528,54 @@ albums:{
  tema:{en:"Propaganda.",es:"Propaganda."},
  txt:[ {en:"The most ingenious conceptual move of their career. Inside the fiction, this is an album recorded under coercion: Clancy has been recaptured and forced to host a cheerful TV show for the citizens of Dema.", es:"La jugada conceptual más ingeniosa de su carrera. Dentro de la ficción, este es un disco grabado bajo coerción: Clancy fue recapturado y obligado a hacer un programa alegre de TV para los ciudadanos de Dema."},
        {en:"Meaning — their most pop, colorful album is, diegetically, <b>enemy propaganda</b>.", es:"Es decir — su álbum más pop y colorido es, diegéticamente, <b>propaganda enemiga</b>."},
-       {en:"Outside the fiction: written alone, at home, in lockdown, with his wife pregnant. Both readings work at the same time, and that's what makes the album.", es:"Fuera de la ficción: escrito solo, en casa, en cuarentena, con su esposa embarazada. Las dos lecturas funcionan al mismo tiempo, y eso es lo que hace al disco."} ],
- img:{en:"Pastel scales covering everything, cracked open by a black fissure. The surface is the propaganda; the dark is what it's covering.", es:"Escamas pastel cubriéndolo todo, rajadas por una fisura negra. La superficie es la propaganda; lo oscuro es lo que está tapando."},
+       {en:"Outside the fiction: written alone, at home, in lockdown, with his wife pregnant. Both readings work at the same time, and that’s what makes the album.", es:"Fuera de la ficción: escrito solo, en casa, en cuarentena, con su esposa embarazada. Las dos lecturas funcionan al mismo tiempo, y eso es lo que hace al disco."} ],
+ img:{en:"Pastel scales covering everything, cracked open by a black fissure. The surface is the propaganda; the dark is what it’s covering.", es:"Escamas pastel cubriéndolo todo, rajadas por una fisura negra. La superficie es la propaganda; lo oscuro es lo que está tapando."},
  facts:[ {en:"11 tracks",es:"11 canciones"}, {en:"written in lockdown",es:"escrito en cuarentena"}, {en:"Good Day Dema",es:"Good Day Dema"} ] },
 "2024":{ date:{en:"MAY 24",es:"24 MAY"}, kind:{en:"taking the name",es:"asumir el nombre"},
  tema:{en:"To stop running and become a leader.",es:"Dejar de huir y convertirse en líder."},
  txt:[ {en:"The protagonist stops being a victim and becomes the one who organizes.", es:"El protagonista deja de ser víctima y se convierte en el que organiza."},
-       {en:"Outside the lore, it's an album about recurrence: relapse, routine, marital boredom, kids, the Ohio winter.", es:"Fuera del lore, es un disco sobre la reincidencia: recaída, rutina, tedio conyugal, hijos, el invierno de Ohio."},
+       {en:"Outside the lore, it’s an album about recurrence: relapse, routine, marital boredom, kids, the Ohio winter.", es:"Fuera del lore, es un disco sobre la reincidencia: recaída, rutina, tedio conyugal, hijos, el invierno de Ohio."},
        {en:"It was announced as the closing of the saga. Hold on to that — it matters in the next chapter.", es:"Fue anunciado como el cierre de la saga. Guarda ese dato — importa en el capítulo siguiente."} ],
  img:{en:"Horizontal currents cut by a single vertical trail between two shores — the crossing of the Paladin Strait, against the current. On the far shore, yellow petals are waiting.", es:"Corrientes horizontales atravesadas por un único sendero vertical, entre dos orillas — la travesía del Paladin Strait, contra la corriente. En la orilla de llegada, esperan pétalos amarillos."},
- facts:[ {en:"13 tracks",es:"13 canciones"}, {en:"#1 in 4 countries",es:"#1 en 4 países"}, {en:"Clancy World Tour: Aug '24 – Oct '25",es:"Clancy World Tour: ago 24 – oct 25"} ] },
-"2025":{ date:{en:"SEP 12",es:"12 SEP"}, kind:{en:"the ending that isn't one",es:"el final que no es final"},
+ facts:[ {en:"13 tracks",es:"13 canciones"}, {en:"#1 in 4 countries",es:"#1 en 4 países"}, {en:"Clancy World Tour: Aug ’24 – Oct ’25",es:"Clancy World Tour: ago ’24 – oct ’25"} ] },
+"2025":{ date:{en:"SEP 12",es:"12 SEP"}, kind:{en:"the ending that isn’t one",es:"el final que no es final"},
  tema:{en:"Finding out there is no ending.",es:"Descubrir que no existe un final."},
- txt:[ {en:"The title has three simultaneous meanings, all intentional: to <b>breach</b> Dema's wall; to <b>break trust</b> — Tyler told Zane Lowe they felt they had faked a direction by presenting <i>Clancy</i> as the ending, and named the next album after that break; and <b>the breach</b>, the crack through which the whole thing starts again.", es:"El título tiene tres significados simultáneos, todos intencionales: <b>invadir</b> la muralla de Dema; <b>romper la confianza</b> — Tyler le explicó a Zane Lowe que sintieron haber marcado una dirección falsa al presentar <i>Clancy</i> como el final, y bautizaron el siguiente disco con el nombre de esa ruptura; y <b>la brecha</b>, la grieta por donde todo vuelve a empezar."},
+ txt:[ {en:"The title has three simultaneous meanings, all intentional: to <b>breach</b> Dema’s wall; to <b>break trust</b> — Tyler told Zane Lowe they felt they had pointed in a false direction by presenting <i>Clancy</i> as the ending, and named the next album after that break; and <b>the breach</b>, the crack through which the whole thing starts again.", es:"El título tiene tres significados simultáneos, todos intencionales: <b>invadir</b> la muralla de Dema; <b>romper la confianza</b> — Tyler le explicó a Zane Lowe que sintieron haber señalado una dirección falsa al presentar <i>Clancy</i> como el final, y bautizaron el siguiente disco con el nombre de esa ruptura; y <b>la brecha</b>, la grieta por donde todo vuelve a empezar."},
        {en:"They turned their own marketing mistake into a title and a theme.", es:"Convirtieron su propio error de marketing en título y en tema."} ],
  img:{en:"A coursed wall cracked by a fracture of light. Behind it, ghostly and upside down, the vessel from 2013 — because <i>Intentions</i> is <i>Truce</i> played backwards. And a single yellow petal crossing through the fracture.", es:"Un muro de hiladas rajado por una fractura de luz. Detrás, fantasmal y de cabeza, el recipiente de 2013 — porque <i>Intentions</i> es <i>Truce</i> tocada al revés. Y un único pétalo amarillo atravesando la fractura."},
  facts:[ {en:"#1 in the US · 200k units",es:"#1 en EE. UU. · 200 mil unidades"}, {en:"biggest debut of their career",es:"el mayor debut de su carrera"}, {en:"biggest vinyl week for a rock album since 1991",es:"la mayor semana de vinilo de un disco de rock desde 1991"}, {en:"13 tracks on the rock top 40",es:"13 canciones en el top 40 de rock"} ] }
 },
 cruz:[
- { t:{en:"The bishops were born inside the 2015 lyrics", es:"Los obispos nacieron dentro de las letras de 2015"}, d:{en:"Each of the nine names is hidden in a <i>Blurryface</i> track, and the positions of those tracks form the code that opened the secret website in 2018. To find the lore's front door you had to have memorized an album from three years earlier. No casual listener could — and that was the point.", es:"Cada uno de los nueve nombres está escondido en una canción de <i>Blurryface</i>, y las posiciones de esas canciones forman el código que abrió el sitio secreto en 2018. Para hallar la puerta de entrada del lore había que haberse memorizado un álbum de tres años antes. Ningún oyente casual podría — y ese era el punto."} },
- { t:{en:"The lore is retroactive, and that's the move", es:"El lore es retroactivo, y esa es la jugada"}, d:{en:"<i>Blurryface</i> wasn't written as chapter 1. It was <b>turned into</b> chapter 1 later, when they revealed Nico was Blurryface. Instead of needing a master plan since 2009, they built a system that lets them reinterpret the past at any moment. Practical consequence: every new album turns every old album into new content.", es:"<i>Blurryface</i> no fue escrito como capítulo 1. Fue <b>convertido</b> en capítulo 1 después, cuando revelaron que Nico era Blurryface. En vez de necesitar un plan maestro desde 2009, construyeron un sistema que permite reinterpretar el pasado en cualquier momento. Consecuencia práctica: cada disco nuevo convierte todos los discos viejos en contenido nuevo."} },
- { d:{en:"Twelve years between them, and the second is literally the first reversed. The most quoted line of <i>Truce</i> — the sun will rise and they'll try again — is echoed by the Torchbearer at the end of the <i>City Walls</i> video. The entire saga is a palindrome.", es:"Doce años las separan, y la segunda es literalmente la primera invertida. La frase más citada de <i>Truce</i> — el sol saldrá y lo intentan de nuevo — es repetida por el Torchbearer al final del video de <i>City Walls</i>. La saga entera es un palíndromo."} },
+ { t:{en:"The bishops were born inside the 2015 lyrics", es:"Los obispos nacieron dentro de las letras de 2015"}, d:{en:"Each of the nine names is hidden in a <i>Blurryface</i> track, and the positions of those tracks form the code that opened the secret website in 2018. To find the lore’s front door you had to have memorized an album from three years earlier. No casual listener could — and that was the point.", es:"Cada uno de los nueve nombres está escondido en una canción de <i>Blurryface</i>, y las posiciones de esas canciones forman el código que abrió el sitio secreto en 2018. Para hallar la puerta de entrada del lore había que haberse memorizado un álbum de tres años antes. Ningún oyente casual podría — y ese era el punto."} },
+ { t:{en:"The lore is retroactive, and that’s the move", es:"El lore es retroactivo, y esa es la jugada"}, d:{en:"<i>Blurryface</i> wasn’t written as chapter 1. It was <b>turned into</b> chapter 1 later, when they revealed Nico was Blurryface. Instead of needing a master plan since 2009, they built a system that lets them reinterpret the past at any moment. Practical consequence: every new album turns every old album into new content.", es:"<i>Blurryface</i> no fue escrito como capítulo 1. Fue <b>convertido</b> en capítulo 1 después, cuando revelaron que Nico era Blurryface. En vez de necesitar un plan maestro desde 2009, construyeron un sistema que permite reinterpretar el pasado en cualquier momento. Consecuencia práctica: cada disco nuevo convierte todos los discos viejos en contenido nuevo."} },
+ { d:{en:"Twelve years between them, and the second is literally the first reversed. The most quoted line of <i>Truce</i> — the sun will rise and they’ll try again — is echoed by the Torchbearer at the end of the <i>City Walls</i> video. The entire saga is a palindrome.", es:"Doce años las separan, y la segunda es literalmente la primera invertida. La frase más citada de <i>Truce</i> — el sol saldrá y lo intentan de nuevo — es repetida por el Torchbearer al final del video de <i>City Walls</i>. La saga entera es un palíndromo."} },
  { d:{en:"At the absolute climax of the story, what he sings is a line from an album that predates the lore. Translation: the answer was never inside Dema.", es:"En el clímax absoluto de la historia, lo que canta es una línea de un disco anterior al lore. Traducción: la respuesta nunca estuvo dentro de Dema."} },
- { d:{en:"The same grandfather, two griefs, seven years apart. The first is the promise to tell his story; the second is the realization that you can't live in the present forever looking through the telescope of the past.", es:"El mismo abuelo, dos duelos, siete años de diferencia. La primera es la promesa de contar su historia; la segunda es la percepción de que no se puede vivir el presente mirando siempre por el telescopio del pasado."} },
- { t:{en:"The anti-suicide line running through sixteen years", es:"La línea antisuicidio que atraviesa dieciséis años"}, d:{en:"<i>Friend, Please</i> (2009) → <i>Guns for Hands</i> (2011) → <i>Truce</i> (2013) → <i>Goner</i> (2015) → <b>Neon Gravestones</b> (2018) → <i>Redecorate</i> (2021) → <i>At the Risk of Feeling Dumb</i> (2024) → <i>Intentions</i> (2025). It's the real backbone of the discography — and the reason the lore's villain preaches suicide. The entire fictional architecture exists to put that idea on the wrong side of the story.", es:"<i>Friend, Please</i> (2009) → <i>Guns for Hands</i> (2011) → <i>Truce</i> (2013) → <i>Goner</i> (2015) → <b>Neon Gravestones</b> (2018) → <i>Redecorate</i> (2021) → <i>At the Risk of Feeling Dumb</i> (2024) → <i>Intentions</i> (2025). Es la columna vertebral real de la discografía — y la razón por la que el villano del lore predica el suicidio. Toda la arquitectura ficcional existe para poner esa idea del lado equivocado de la historia."} },
- { t:{en:"The color of rebellion and the color of power are the same", es:"El color de la rebelión y el color del poder son el mismo"}, d:{en:"Yellow #FCE300 is the shade the bishops can't see: the resistance is invisible to power. Black is control. Red shows up in the Clancy era as the recruits' mark… and becomes the bishop's robe he puts on at the end. Not an accident: it's the album's argument.", es:"El amarillo #FCE300 es el tono que los obispos no ven: la resistencia es invisible para el poder. El negro es control. El rojo aparece en la era Clancy como marca de los reclutas… y se convierte en el manto de obispo que él se pone al final. No es un accidente: es el argumento del disco."} }
+ { d:{en:"The same grandfather, two griefs, seven years apart. The first is the promise to tell his story; the second is the realization that you can’t live in the present forever looking through the telescope of the past.", es:"El mismo abuelo, dos duelos, siete años de diferencia. La primera es la promesa de contar su historia; la segunda es la percepción de que no se puede vivir el presente mirando siempre por el telescopio del pasado."} },
+ { t:{en:"The anti-suicide line running through sixteen years", es:"La línea antisuicidio que atraviesa dieciséis años"}, d:{en:"<i>Friend, Please</i> (2009) → <i>Guns for Hands</i> (2011) → <i>Truce</i> (2013) → <i>Goner</i> (2015) → <b>Neon Gravestones</b> (2018) → <i>Redecorate</i> (2021) → <i>At the Risk of Feeling Dumb</i> (2024) → <i>Intentions</i> (2025). It’s the real backbone of the discography — and the reason the lore’s villain preaches suicide. The entire fictional architecture exists to put that idea on the wrong side of the story.", es:"<i>Friend, Please</i> (2009) → <i>Guns for Hands</i> (2011) → <i>Truce</i> (2013) → <i>Goner</i> (2015) → <b>Neon Gravestones</b> (2018) → <i>Redecorate</i> (2021) → <i>At the Risk of Feeling Dumb</i> (2024) → <i>Intentions</i> (2025). Es la columna vertebral real de la discografía — y la razón por la que el villano del lore predica el suicidio. Toda la arquitectura ficcional existe para poner esa idea del lado equivocado de la historia."} },
+ { t:{en:"The color of rebellion and the color of power are the same", es:"El color de la rebelión y el color del poder son el mismo"}, d:{en:"Yellow #FCE300 is the shade the bishops can’t see: the resistance is invisible to power. Black is control. Red shows up in the Clancy era as the recruits’ mark… and becomes the bishop’s robe he puts on at the end. Not an accident: it’s the album’s argument.", es:"El amarillo #FCE300 es el tono que los obispos no ven: la resistencia es invisible para el poder. El negro es control. El rojo aparece en la era Clancy como marca de los reclutas… y se convierte en el manto de obispo que él se pone al final. No es un accidente: es el argumento del disco."} }
 ],
 mech:[
- { t:{en:"Externalize the enemy", es:"Externalizar al enemigo"}, d:{en:"Nobody can fight their own anxiety — it has no shape. But you can fight Nico. By giving Tyler's insecurity a body, a name, a deep voice, black paint and an entire city, the band did the most useful thing art can do with mental suffering: it made it attackable. And, because it's fiction, attackable as a group, without anyone having to confess anything.", es:"Nadie puede pelear contra su propia ansiedad — no tiene forma. Pero sí se puede pelear contra Nico. Al darle cuerpo, nombre, voz grave, pintura negra y una ciudad entera a la inseguridad de Tyler, la banda hizo lo más útil que el arte puede hacer con el sufrimiento mental: lo volvió atacable. Y, como es ficción, atacable en grupo, sin que nadie tenga que confesar nada."} },
+ { t:{en:"Externalize the enemy", es:"Externalizar al enemigo"}, d:{en:"Nobody can fight their own anxiety — it has no shape. But you can fight Nico. By giving Tyler’s insecurity a body, a name, a deep voice, black paint and an entire city, the band did the most useful thing art can do with mental suffering: it made it attackable. And, because it’s fiction, attackable as a group, without anyone having to confess anything.", es:"Nadie puede pelear contra su propia ansiedad — no tiene forma. Pero sí se puede pelear contra Nico. Al darle cuerpo, nombre, voz grave, pintura negra y una ciudad entera a la inseguridad de Tyler, la banda hizo lo más útil que el arte puede hacer con el sufrimiento mental: lo volvió atacable. Y, como es ficción, atacable en grupo, sin que nadie tenga que confesar nada."} },
  { t:{en:"Two doors in, always", es:"Dos puertas de entrada, siempre"}, d:{en:"<i>Stressed Out</i> works at a party and works as the portrait of a bishop. <i>Scaled and Icy</i> works as a lockdown pop album and as propaganda from a fictional regime. That solves the hardest dilemma any niche artist faces: how to be massive without betraying the core. The surface pays the bills; the depth builds the devotion.", es:"<i>Stressed Out</i> funciona en una fiesta y funciona como retrato de un obispo. <i>Scaled and Icy</i> funciona como disco pop de cuarentena y como propaganda de un régimen ficticio. Eso resuelve el dilema más difícil de cualquier artista de nicho: cómo ser masivo sin traicionar el núcleo. La superficie paga las cuentas; la profundidad crea la devoción."} },
  { t:{en:"Lore as work, not decoration", es:"El lore como trabajo, no como adorno"}, d:{en:"Decoding dmaorg.info in 2018 took real effort from thousands of people — and work creates ownership. Whoever cracks the puzzle comes to feel the result as partly theirs. The fan stops being a consumer and becomes a co-author. Added to the retroactive lore, this creates an extremely rare asset: a back catalog that never goes stale, because every release forces you to re-listen to everything.", es:"Decodificar dmaorg.info en 2018 exigió esfuerzo real de miles de personas — y el trabajo genera propiedad. Quien descifra el enigma pasa a sentir el resultado como parcialmente suyo. El fan deja de ser consumidor y se vuelve coautor. Sumado al lore retroactivo, eso crea un activo rarísimo: un catálogo viejo que nunca se vuelve pasivo, porque cada lanzamiento obliga a reescucharlo todo."} },
- { t:{en:"Hand the brand to the audience", es:"Entregar la marca al público"}, d:{en:"The |-/ symbol wasn't created by a designer and imposed on the fans — it was the opposite. Fans typed it on social media because they couldn't reproduce the original logo, and the band adopted their improvisation as official identity. Skeleton Clique is a self-given name. The Banditos read as the fanbase itself inside the fiction. The effect: the band doesn't have fans, it has members.", es:"El símbolo |-/ no fue creado por el diseñador e impuesto a los fans — fue al revés. Los fans lo escribían en redes porque no podían reproducir el logo original, y la banda adoptó su improvisación como identidad oficial. Skeleton Clique es autodenominación. Los Banditos se leen como el propio fandom dentro de la ficción. El efecto: la banda no tiene fans, tiene miembros."} },
- { t:{en:"Two guys on stage — the effort must be visible", es:"Dos tipos en el escenario — el esfuerzo tiene que ser visible"}, d:{en:"With no backing band, everything has to be triggered, played, sung and drummed by two people, in an arena, with a backflip. The audience sees the difficulty. Tyler has said he doesn't want to walk on stage without something to overcome, because he hates watching veteran bands get too comfortable. Visible effort is the most reliable loyalty generator there is — more than virtuosity, more than production.", es:"Sin banda de apoyo, todo tiene que ser disparado, tocado, cantado y percutido por dos personas, en una arena, con backflip. El público ve la dificultad. Tyler ha dicho que no quiere subir al escenario sin algo que superar, porque odia ver a bandas veteranas demasiado cómodas. El esfuerzo visible es el generador de lealtad más confiable que existe — más que el virtuosismo, más que la producción."} },
- { t:{en:"Ritual", es:"Ritual"}, d:{en:"The secret handshake with one fan, the drum kit carried over the crowd's hands during <i>Trees</i>, the yellow paper, the confetti, the show that always ends the same way. Both came from religious families and upbringings, and they know exactly what liturgy does to a group: it builds repeatable belonging. It isn't cynicism, it's applied competence.", es:"El apretón de manos secreto con un fan, la batería llevada sobre las manos del público en <i>Trees</i>, el papel amarillo, el confeti, el show que siempre termina igual. Los dos vienen de familias y educación religiosas, y saben exactamente lo que la liturgia hace con un grupo: crea pertenencia repetible. No es cinismo, es competencia aplicada."} },
- { t:{en:"The moral contract: stay alive", es:"El contrato moral: sigue con vida"}, d:{en:"Here's the difference almost nobody notices. In many dark bands, darkness is a terminal aesthetic. Here, the villain's ideology is suicide — the entire universe is structurally against self-destruction, and escaping Dema <i>is</i> refusing that idea. The practical result is that their darkness is safe. No nihilist band buys that kind of loyalty.", es:"Aquí está la diferencia que casi nadie nota. En muchas bandas oscuras, la oscuridad es estética terminal. Aquí, la ideología del villano es el suicidio — el universo entero está estructuralmente en contra de la autodestrucción, y escapar de Dema <i>es</i> rechazar esa idea. El resultado práctico es que su oscuridad es segura. Ninguna banda nihilista compra ese tipo de lealtad."} },
- { t:{en:"Silence as product, mistakes as raw material", es:"El silencio como producto, el error como materia prima"}, d:{en:"Vanishing for a whole year in 2017, wiping their socials, returning with an ARG: absence creates hunger, and since the story continues during the vanishing, silence is also content. And when they err, they metabolize: they said <i>Clancy</i> was the end, it wasn't, and instead of pretending nothing happened they named the next album <i>Breach</i> — the break of trust — and wrote about it.", es:"Desaparecer un año entero en 2017, borrar las redes, volver con un ARG: la ausencia genera hambre y, como la historia continúa durante la desaparición, el silencio también es contenido. Y cuando se equivocan, metabolizan: dijeron que <i>Clancy</i> era el final, no lo era, y en vez de fingir que nada pasó bautizaron el siguiente disco <i>Breach</i> — la ruptura de confianza — y escribieron sobre eso."} },
- { t:{en:"The message and the machine are the same thing", es:"El mensaje y la máquina son la misma cosa"}, d:{en:"<i>Lane Boy</i>, <i>The Hype</i>, <i>Message Man</i>, <i>Pet Cheetah</i>, <i>Days Lie Dormant</i>: the songs are about the price of their own career. That creates a self-feeding system — the more success, the more material. And Tyler's declared rule, that he'd rather stop than fake a song, works as a guarantee of authenticity: the audience doesn't have to trust the intention, it can audit the track record.", es:"<i>Lane Boy</i>, <i>The Hype</i>, <i>Message Man</i>, <i>Pet Cheetah</i>, <i>Days Lie Dormant</i>: las canciones son sobre el precio de su propia carrera. Eso crea un sistema que se retroalimenta — cuanto más éxito, más material. Y la regla declarada de Tyler, de que prefiere parar antes que fingir una canción, funciona como garantía de autenticidad: el público no necesita confiar en la intención, puede auditar el historial."} }
+ { t:{en:"Hand the brand to the audience", es:"Entregar la marca al público"}, d:{en:"The |-/ symbol wasn’t created by a designer and imposed on the fans — it was the opposite. Fans typed it on social media because they couldn’t reproduce the original logo, and the band adopted their improvisation as official identity. Skeleton Clique is a self-given name. The Banditos read as the fanbase itself inside the fiction. The effect: the band doesn’t have fans, it has members.", es:"El símbolo |-/ no fue creado por el diseñador e impuesto a los fans — fue al revés. Los fans lo escribían en redes porque no podían reproducir el logo original, y la banda adoptó su improvisación como identidad oficial. Skeleton Clique es autodenominación. Los Banditos se leen como el propio fandom dentro de la ficción. El efecto: la banda no tiene fans, tiene miembros."} },
+ { t:{en:"Two guys on stage — the effort must be visible", es:"Dos tipos en el escenario — el esfuerzo tiene que ser visible"}, d:{en:"With no backing band, everything has to be triggered, played, sung and drummed by two people, in an arena, with a backflip. The audience sees the difficulty. Tyler has said he doesn’t want to walk on stage without something to overcome, because he hates watching veteran bands get too comfortable. Visible effort is the most reliable loyalty generator there is — more than virtuosity, more than production.", es:"Sin banda de apoyo, todo tiene que ser disparado, tocado, cantado y percutido por dos personas, en una arena, con backflip. El público ve la dificultad. Tyler ha dicho que no quiere subir al escenario sin algo que superar, porque odia ver a bandas veteranas demasiado cómodas. El esfuerzo visible es el generador de lealtad más confiable que existe — más que el virtuosismo, más que la producción."} },
+ { t:{en:"Ritual", es:"Ritual"}, d:{en:"The secret handshake with one fan, the drum kit carried over the crowd’s hands during <i>Trees</i>, the yellow paper, the confetti, the show that always ends the same way. Both came from religious families and upbringings, and they know exactly what liturgy does to a group: it builds repeatable belonging. It isn’t cynicism, it’s applied competence.", es:"El apretón de manos secreto con un fan, la batería llevada sobre las manos del público en <i>Trees</i>, el papel amarillo, el confeti, el show que siempre termina igual. Los dos vienen de familias y educación religiosas, y saben exactamente lo que la liturgia hace con un grupo: crea pertenencia repetible. No es cinismo, es competencia aplicada."} },
+ { t:{en:"The moral contract: stay alive", es:"El contrato moral: sigue con vida"}, d:{en:"Here’s the difference almost nobody notices. In many dark bands, darkness is a terminal aesthetic. Here, the villain’s ideology is suicide — the entire universe is structurally against self-destruction, and escaping Dema <i>is</i> refusing that idea. The practical result is that their darkness is safe. No nihilist band buys that kind of loyalty.", es:"Aquí está la diferencia que casi nadie nota. En muchas bandas oscuras, la oscuridad es estética terminal. Aquí, la ideología del villano es el suicidio — el universo entero está estructuralmente en contra de la autodestrucción, y escapar de Dema <i>es</i> rechazar esa idea. El resultado práctico es que su oscuridad es segura. Ninguna banda nihilista compra ese tipo de lealtad."} },
+ { t:{en:"Silence as product, mistakes as raw material", es:"El silencio como producto, el error como materia prima"}, d:{en:"Vanishing for a whole year in 2017, wiping their socials, returning with an ARG: absence creates hunger, and since the story continues during the vanishing, silence is also content. And when they err, they metabolize: they said <i>Clancy</i> was the end, it wasn’t, and instead of pretending nothing happened they named the next album <i>Breach</i> — the break of trust — and wrote about it.", es:"Desaparecer un año entero en 2017, borrar las redes, volver con un ARG: la ausencia genera hambre y, como la historia continúa durante la desaparición, el silencio también es contenido. Y cuando se equivocan, metabolizan: dijeron que <i>Clancy</i> era el final, no lo era, y en vez de fingir que nada pasó bautizaron el siguiente disco <i>Breach</i> — la ruptura de confianza — y escribieron sobre eso."} },
+ { t:{en:"The message and the machine are the same thing", es:"El mensaje y la máquina son la misma cosa"}, d:{en:"<i>Lane Boy</i>, <i>The Hype</i>, <i>Message Man</i>, <i>Pet Cheetah</i>, <i>Days Lie Dormant</i>: the songs are about the price of their own career. That creates a self-feeding system — the more success, the more material. And Tyler’s declared rule, that he’d rather stop than fake a song, works as a guarantee of authenticity: the audience doesn’t have to trust the intention, it can audit the track record.", es:"<i>Lane Boy</i>, <i>The Hype</i>, <i>Message Man</i>, <i>Pet Cheetah</i>, <i>Days Lie Dormant</i>: las canciones son sobre el precio de su propia carrera. Eso crea un sistema que se retroalimenta — cuanto más éxito, más material. Y la regla declarada de Tyler, de que prefiere parar antes que fingir una canción, funciona como garantía de autenticidad: el público no necesita confiar en la intención, puede auditar el historial."} }
 ],
 warn:[
  {en:"<b>There were six years of groundwork before the first hit.</b> 2009 to 2015 were basement, van, small Columbus shows and two independent albums. The 2018 ARG only worked because there were already people willing to decode. Lore without a pre-existing community is a puzzle without an audience.", es:"<b>Hubo seis años de base antes del primer hit.</b> De 2009 a 2015 fueron sótano, van, shows pequeños en Columbus y dos discos independientes. El ARG de 2018 solo funcionó porque ya existía gente dispuesta a decodificar. Lore sin comunidad previa es un enigma sin público."},
  {en:"<b>Unrepeatable timing.</b> 2015–2016 was probably the last window in which a rock act could blow up on radio and streaming at the same time.", es:"<b>Un timing irrepetible.</b> 2015–2016 fue probablemente la última ventana en la que un acto de rock explotaba en la radio y el streaming al mismo tiempo."},
  {en:"<b>The ballast is real.</b> The lore is about a condition the author actually has. Fiction built without emotional ballast becomes an empty ARG, and audiences feel the difference fast.", es:"<b>El lastre es real.</b> El lore trata de una condición que el autor realmente tiene. La ficción construida sin lastre emocional se vuelve un ARG vacío, y el público siente la diferencia rápido."},
- {en:"<b>The criticism exists and is legitimate.</b> <i>Breach</i> split opinion: a 6.2 on Pitchfork against 9th place on Kerrang!'s albums of the year. There's a defensible reading that the lore, at times, props up songs that wouldn't stand on their own — and that the band-fandom dependency has a parasocial side nobody should romanticize.", es:"<b>La crítica existe y es legítima.</b> <i>Breach</i> dividió: un 6,2 en Pitchfork contra el 9º lugar en la lista de lo mejor del año de Kerrang!. Hay una lectura defendible de que el lore, en ciertos momentos, sostiene canciones que solas no se sostendrían — y de que la dependencia entre banda y fandom tiene un lado parasocial que nadie debería romantizar."},
+ {en:"<b>The criticism exists and is legitimate.</b> <i>Breach</i> split opinion: a 6.2 on Pitchfork against 9th place on Kerrang!’s albums of the year. There’s a defensible reading that the lore, at times, props up songs that wouldn’t stand on their own — and that the band-fandom dependency has a parasocial side nobody should romanticize.", es:"<b>La crítica existe y es legítima.</b> <i>Breach</i> dividió: un 6,2 en Pitchfork contra el 9º lugar en la lista de lo mejor del año de Kerrang! Hay una lectura defendible de que el lore, en ciertos momentos, sostiene canciones que solas no se sostendrían — y de que la dependencia entre banda y fandom tiene un lado parasocial que nadie debería romantizar."},
  {en:"<b>The open question:</b> the cycle closed in 2025. What sustains the next decade, now that the named enemy has been defeated — and became the protagonist?", es:"<b>La pregunta abierta:</b> el ciclo se cerró en 2025. ¿Qué sostiene la próxima década, ahora que el enemigo con nombre fue derrotado — y se convirtió en el protagonista?"}
 ],
 /* Notas de faixa: adicione aqui quando quiser traduzir uma.
    Exemplo · Example · Ejemplo:
    tracks:{ "2013": { 12: { en:"Two minutes of piano…", es:"Dos minutos de piano…" } } } */
-bishops:[
- { d:{en:"The bishop who betrays the other eight in 2021 — he frees Clancy and the Torchbearer, and dies for it. The traitor's name had been sitting in the album's first track since 2015.",
-      es:"El obispo que traiciona a los otros ocho en 2021 — libera a Clancy y al Torchbearer, y muere por eso. El nombre del traidor estaba en la primera canción del disco desde 2015."} },
- { d:{en:"Kept inside the love song written for Jenna. The brightest track on the album is hiding a jailer.",
-      es:"Guardado dentro de la canción de amor escrita para Jenna. La canción más luminosa del disco esconde a un carcelero."} },
- { d:{en:"In the song everybody sang on the radio. Reggae-pop on the surface, a bishop's name underneath — the disguise was never the point.",
-      es:"En la canción que todo el mundo cantó en la radio. Reggae-pop en la superficie, nombre de obispo debajo — el disfraz nunca fue el punto."} },
- { d:{en:"Track 9 — the same number as the bishops, the districts and the circles on the cover. Each circle is a track; each track, a name.",
-      es:"Pista 9 — el mismo número que los obispos, los distritos y los círculos de la portada. Cada círculo es una canción; cada canción, un nombre."} },
- { d:{en:"Hidden in the plea for faith not to forget him in the middle of doubt.",
-      es:"Escondido en el pedido de que la fe no lo olvide en medio de la duda."} },
- { d:{en:"Inside the refusal to stay in the lane the industry assigned — on an album that went 6× platinum.",
-      es:"Dentro de la negativa a quedarse en el carril que la industria le reservó — en un disco que fue 6× platino."} },
- { d:{en:"Where Blurryface's deep voice enters the album for the first time. In 2015 it sounded like a studio effect; it was a character.",
-      es:"Donde la voz grave de Blurryface entra por primera vez en el disco. En 2015 parecía un efecto de estudio; era un personaje."} },
- { d:{en:"The head bishop, and the only name that never comes out clean from the lyrics: Nico is Blurryface. Full name Nicolas Bourbaki — in real life, the collective pen name of a group of French mathematicians. A name that is actually many people.",
-      es:"El obispo jefe, y el único nombre que no sale limpio de la letra: Nico es Blurryface. Nombre completo, Nicolas Bourbaki — en la vida real, el seudónimo colectivo de un grupo de matemáticos franceses. Un nombre que en realidad son muchas personas."} },
- { d:{en:"It closes the code with the most exposed scream of their career: he begs someone to pull Blurryface out of him.",
-      es:"Cierra el código con el grito más expuesto de la carrera: pide que alguien le saque a Blurryface de adentro."} }
-],
-tracks:{"2009":{"1":{"en":"An angry prayer demanding proof from God. It defines the band's method: asking the question out loud instead of faking certainty.","es":"Una oración rabiosa exigiéndole pruebas a Dios. Define el método de la banda: hacer la pregunta en voz alta en vez de fingir certeza."},"2":{"en":"The fear that faith and the self itself will dissolve. Falling as loss of purpose.","es":"El miedo a que la fe y el propio yo se disuelvan. Caer como pérdida de propósito."},"3":{"en":"The portrait of an old man nobody listens to. The fear of growing old irrelevant.","es":"El retrato de un viejo al que nadie escucha. El miedo a envejecer irrelevante."},"4":{"en":"Writing as addiction and as prayer. Spiritual thirst in desert imagery. A cult favorite among longtime fans.","es":"La escritura como adicción y como oración. Sed espiritual en imágenes de desierto. Canción de culto entre los fans antiguos."},"5":{"en":"A direct plea to a friend in deep depression. It's the discography's first ask for someone to stay alive — and it shows up in the first half of the first album.","es":"Una súplica directa a un amigo en depresión profunda. Es el primer pedido de que alguien siga con vida de la discografía — y aparece ya en la primera mitad del primer disco."},"6":{"en":"A crowd marching together into the sea. A critique of following the herd without thinking: the embryo of Dema, nine years early.","es":"Una multitud marchando junta hacia el mar. Crítica a seguir al rebaño sin pensar: el embrión de Dema, nueve años antes."},"7":{"d":{"en":"Born out of the 2008–09 recession, when Tyler's dad lost his job. A plea for someone not to give up.","es":"Nació de la recesión de 2008–09, cuando el papá de Tyler se quedó sin empleo. Un pedido para que alguien no se rinda."},"tag":{"en":"confirmed by his dad","es":"confirmado por su papá"}},"8":{"en":"A lullaby for someone who lost faith in herself.","es":"Una canción de cuna para quien perdió la fe en sí misma."},"9":{"en":"Desire and religious guilt tripping over each other.","es":"Deseo y culpa religiosa atropellándose."},"10":{"en":"The public persona versus what's under the trapdoor. The first version of the false self that becomes Blurryface in 2015.","es":"La persona pública contra lo que está bajo la trampilla. La primera versión del yo falso que se convierte en Blurryface en 2015."},"11":{"en":"Death as transition. Retroactive curiosity: the car and the torch become, years later, the burning car of <i>Heavydirtysoul</i> and the Torchbearer.","es":"La muerte como transición. Curiosidad retroactiva: el auto y la antorcha se convierten, años después, en el auto en llamas de <i>Heavydirtysoul</i> y en el Torchbearer."},"12":{"en":"Death as a taxi ride: where exactly is it that we're going.","es":"La muerte como viaje en taxi: adónde es que se va."},"13":{"en":"A request to look at your own life before running through it.","es":"Un pedido de mirar tu propia vida antes de salir corriendo por ella."},"14":{"en":"An island of birds that don't fly: people with potential never used. It's the thesis of the whole album.","es":"Una isla de pájaros que no vuelan: gente con potencial nunca usado. Es la tesis de todo el disco."}},"2011":{"1":{"d":{"en":"Addressed to those with self-harm impulses: use that energy for something else.","es":"Dirigida a quien tiene impulsos de autoagresión: usa esa energía para otra cosa."},"tag":{"en":"confirmed","es":"confirmado"}},"2":{"en":"The mind can rule the body. Surrendering to something bigger. Re-recorded for <i>Vessel</i>.","es":"La mente puede dominar al cuerpo. Entregarse a algo más grande. Regrabada en <i>Vessel</i>."},"3":{"en":"Insomnia and inner demons; he refuses to kneel. Re-recorded.","es":"Insomnio y demonios internos; se niega a arrodillarse. Regrabada."},"4":{"en":"<b>Exclusive.</b> The slow town as a comfort bubble that also imprisons. The fear of growing up.","es":"<b>Exclusiva.</b> La ciudad lenta como burbuja de confort que también aprisiona. El miedo a crecer."},"5":{"en":"His car radio really was stolen. Without music, what's left is silence and your own thoughts. Re-recorded.","es":"De verdad le robaron la radio del auto. Sin música, queda el silencio y los propios pensamientos. Regrabada."},"6":{"en":"<b>Exclusive.</b> Faith in the middle of panic. Live, one of the biggest catharses in the catalog.","es":"<b>Exclusiva.</b> Fe en medio del pánico. En vivo, una de las mayores catarsis del catálogo."},"7":{"en":"<b>Exclusive.</b> Eyes glowing in the dark; figures pulling you down. Aesthetically, the ancestor of the red-eyed bishops.","es":"<b>Exclusiva.</b> Ojos que brillan en la oscuridad; figuras que jalan hacia abajo. Estéticamente, el ancestro de los obispos de ojos rojos."},"8":{"d":{"en":"<b>Exclusive</b> and maybe the most beloved of the early era. Tyler explained that the kitchen sink is a personal, untransferable symbol: the point is having an intimate reason to stay alive, even if nobody else understands what it is.","es":"<b>Exclusiva</b> y quizá la más querida de la fase antigua. Tyler explicó que el fregadero es un símbolo personal e intransferible: el punto es tener un motivo íntimo para seguir con vida, aunque nadie más entienda cuál es."},"tag":{"en":"confirmed","es":"confirmado"}},"9":{"en":"<b>Exclusive.</b> Excommunication: feeling unworthy of being inside.","es":"<b>Exclusiva.</b> Excomunión: sentirse indigno de estar adentro."},"10":{"en":"<b>Exclusive.</b> The emptiness of appearances.","es":"<b>Exclusiva.</b> El vacío de la apariencia."},"11":{"en":"<b>Exclusive.</b> A letter asking someone not to give up.","es":"<b>Exclusiva.</b> Una carta pidiendo que alguien no se rinda."},"12":{"en":"The search for God in the forest: he wants to be found. Re-recorded.","es":"La búsqueda de Dios en el bosque: él quiere ser encontrado. Regrabada."},"13":{"en":"<b>Exclusive.</b> Doubt about his own calling and about performative religion.","es":"<b>Exclusiva.</b> Duda sobre la propia vocación y sobre la religión performática."},"14":{"en":"<b>Exclusive.</b> The clarity that only comes when you stop pretending.","es":"<b>Exclusiva.</b> La claridad que solo llega cuando dejas de fingir."}},"2013":{"1":{"en":"The dark thoughts come back every night; he screams that he won't bow. It opens with rap, screaming and melody inside four minutes: a manifesto of method, not an opening track.","es":"Los pensamientos oscuros vuelven cada noche; grita que no se va a doblegar. Abre con rap, grito y melodía en cuatro minutos: es un manifiesto de método, no una canción de apertura."},"2":{"en":"Control: the mind rules the body. It contains the line that, twelve years later, <i>City Walls</i> brings back whole — the most chilling moment on <i>Breach</i> for anyone following since 2013.","es":"Control: la mente domina al cuerpo. Contiene la línea que, doce años después, <i>City Walls</i> recupera entera — el momento más escalofriante de <i>Breach</i> para quien sigue desde 2013."},"3":{"en":"Recurring mental pain. He keeps count of good and bad days and insists they've come too far to stop.","es":"El dolor mental recurrente. Lleva la cuenta de días buenos y malos e insiste en que ya llegaron demasiado lejos para parar."},"4":{"en":"A promise to his mom: if this works out, he'll take care of her. Cheerful ukulele, lyrics about his parents dying. The happy-sound-versus-heavy-theme contrast becomes a signature here.","es":"Una promesa a su mamá: si esto sale bien, él la cuidará. Ukelele alegre, letra sobre la muerte de los padres. El contraste sonido-feliz contra tema-pesado se vuelve firma aquí."},"5":{"en":"Forced silence. Live, it's the moment the whole arena screams together — and it was the show's centerpiece for a decade.","es":"El silencio forzado. En vivo, es el momento en que la arena entera grita junta — y fue la pieza central del show por una década."},"6":{"en":"Neither manual nor automatic: <b>semi</b>-automatic. Part of him decides, part acts on its own. The catalog's best metaphor for dissociation.","es":"Ni manual ni automático: <b>semi</b>automático. Parte de él decide, parte actúa sola. La mejor metáfora del catálogo para la disociación."},"7":{"en":"The collective admission of being broken and not wanting it seen, sung like a choir. The whole album compressed into one chorus.","es":"La admisión colectiva de estar roto y no querer que lo vean, cantada como coro. Es el disco entero comprimido en un estribillo."},"8":{"en":"A cry for help from someone about to run: he warns he needs somebody <i>before</i> disappearing.","es":"Un pedido de ayuda de quien está a punto de huir: avisa que necesita a alguien <i>antes</i> de desaparecer."},"9":{"en":"A relationship where both pretend to be fine.","es":"Una relación en la que los dos fingen estar bien."},"10":{"d":{"en":"For those with guns in their hands — that is, impulses against themselves: transform the energy.","es":"Para quien tiene armas en las manos, o sea, impulsos contra sí mismo: transforma la energía."},"tag":{"en":"confirmed","es":"confirmado"}},"11":{"en":"The spiritual climax. It has closed the shows for over ten years, with the two of them playing drums above the crowd.","es":"El clímax espiritual. Cierra los shows desde hace más de diez años, con los dos tocando tambores sobre el público."},"12":{"en":"Two minutes of piano. A truce with your own mind. The final line — staying alive for someone — is the moral core of the entire discography. In 2025, <i>Breach</i> ends with this track played backwards.","es":"Dos minutos de piano. La tregua con la propia mente. La frase final — seguir con vida por alguien — es el núcleo moral de toda la discografía. En 2025, <i>Breach</i> termina con esta canción tocada al revés."}},"2015":{"1":{"d":{"en":"A cry for help to anyone who can clean a heavy, dirty soul. The video is the lore's first image: the burning car, Josh playing in the middle of the road.","es":"Un pedido de socorro a alguien que pueda limpiar un alma pesada y sucia. El video es la primera imagen del lore: el auto en llamas, Josh tocando en medio de la carretera."},"tag":{"en":"bishop Keons","es":"obispo Keons"}},"2":{"d":{"en":"Childhood nostalgia and the fear of adult judgment. The first mention of the name Blurryface.","es":"Nostalgia de la infancia y miedo al juicio adulto. Primera mención del nombre Blurryface."},"tag":{"en":"bishop Nico — the only name that doesn't come out clean from the lyrics, because Nico is Blurryface","es":"obispo Nico — el único nombre que no sale limpio de la letra, porque Nico es Blurryface"}},"3":{"d":{"en":"Who you'd die for, and the habit of overthinking until you're paralyzed.","es":"Por quién morirías, y el hábito de pensar de más hasta paralizarte."},"tag":{"en":"bishop Listo","es":"obispo Listo"}},"4":{"d":{"en":"The local self and the public self. Blurryface's deep voice enters the album for the first time.","es":"El yo local y el yo público. La voz grave de Blurryface entra por primera vez en el disco."},"tag":{"en":"bishop Andre","es":"obispo Andre"}},"5":{"d":{"en":"A love song for his wife, Jenna: she cracks his chest open.","es":"Una canción de amor para su esposa, Jenna: ella le abre el pecho."},"tag":{"en":"bishop Sacarver","es":"obispo Sacarver"}},"6":{"d":{"en":"A refusal to stay in the lane the industry assigned. A direct jab at producers who ask for formula.","es":"La negativa a quedarse en el carril que la industria le reservó. Un dardo directo a los productores que piden fórmula."},"tag":{"en":"bishop Vetomo","es":"obispo Vetomo"}},"7":{"en":"He asks the inner judge — and God — whether forgiveness is still possible. It hides Josh Dun's full name, an easter egg that appears once per album.","es":"Le pregunta al juez interno — y a Dios — si todavía se puede ser perdonado. Esconde el nombre completo de Josh Dun, un easter egg que aparece una vez por álbum."},"8":{"d":{"en":"A plea for faith not to forget him in the middle of doubt.","es":"Un pedido de que la fe no lo olvide en medio de la duda."},"tag":{"en":"bishop Reisdro","es":"obispo Reisdro"}},"9":{"d":{"en":"Splitting yourself in half to separate what's worth keeping from what isn't.","es":"Partirse a la mitad para separar lo que sirve de lo que no sirve en uno mismo."},"tag":{"en":"bishop Lisden","es":"obispo Lisden"}},"10":{"en":"Ukulele: he needs a person, not fame.","es":"Ukelele: necesita a una persona, no la fama."},"11":{"en":"A frontal warning to the listener: you have no idea what these songs really mean, so listen properly. The track that authorizes everything that came after.","es":"Una advertencia frontal al oyente: no tienes idea de lo que estas canciones significan realmente, así que escucha bien. Es la canción que autoriza todo lo que vino después."},"12":{"en":"Going back home and recognizing neither the town nor yourself.","es":"Volver a casa y no reconocer ni la ciudad ni a uno mismo."},"13":{"en":"The album's happiest melody, about the day he decided not to give in. Deliberately grotesque humor.","es":"La melodía más alegre del disco sobre el día en que decidió no ceder. Humor grotesco a propósito."},"14":{"d":{"en":"The most exposed scream of his career: he begs someone to pull Blurryface out of him.","es":"El grito más expuesto de su carrera: pide que alguien le saque a Blurryface de adentro."},"tag":{"en":"bishop Nills","es":"obispo Nills"}}},"2018":{"1":{"en":"The jumpsuit as armor. He begs his protection not to abandon him. In the video, Nico catches up and marks him.","es":"El mono como armadura. Pide que la protección no lo abandone. En el video, Nico lo alcanza y lo marca."},"2":{"en":"Dense rap about rising and escaping. Clancy is initiated into the Banditos.","es":"Rap denso sobre subir y escapar. Clancy es iniciado en los Banditos."},"3":{"en":"If death is uncertain, he morphs so he won't be caught. It names Nico explicitly. It hides Josh's full name.","es":"Si la muerte es incierta, él se transforma para que no lo atrapen. Nombra a Nico explícitamente. Esconde el nombre completo de Josh."},"4":{"en":"Family loyalty: I'll stay with you even if it's the worst choice. Written with his brothers in mind.","es":"Lealtad familiar: me quedo contigo aunque sea la peor elección. Escrita pensando en sus hermanos."},"5":{"en":"Creation as chlorine: it burns, but it cleans. His dependent relationship with making music. The video introduces Ned.","es":"La creación como cloro: arde, pero limpia. Su relación de dependencia con hacer música. El video presenta a Ned."},"6":{"en":"Short, light and in love: he'd take a beating for her.","es":"Corta, ligera y enamorada: recibiría una golpiza por ella."},"7":{"en":"<b>The most ethically important track in the catalog.</b> It criticizes the culture that glamorizes artists' deaths and turns suicide into legacy, and proposes honoring those who grow old and stay. In the lore, the neon gravestones mark the Glorious Gones. It's the album explaining why the villain preaches what he preaches.","es":"<b>La canción más importante del catálogo desde el punto de vista ético.</b> Critica la cultura que glamoriza la muerte de artistas y convierte el suicidio en legado, y propone honrar a quien envejece y permanece. En el lore, las lápidas de neón marcan a los Glorious Gones. Es el disco explicando por qué el villano predica lo que predica."},"8":{"en":"Fame as noise that almost convinced him to be someone else.","es":"La fama como ruido que casi lo convence de ser otra persona."},"9":{"en":"The most explicitly narrative track: the nine bishops, the tunnels, the yellow they cannot see.","es":"La canción más explícitamente narrativa: los nueve obispos, los túneles, el amarillo que ellos no pueden ver."},"10":{"en":"Keep going even while hurt. A sports image.","es":"Seguir aun lastimado. Imagen deportiva."},"11":{"en":"The decision to join the resistance and change your name. The track where the fanbase most recognizes itself.","es":"La decisión de unirse a la resistencia y cambiar de nombre. La canción en la que el fandom más se reconoce."},"12":{"en":"The racing mind as a pet cheetah that has to stay indoors. Also about creative block and the fear of losing the Clique — which the lyrics name outright.","es":"La mente acelerada como un guepardo de mascota que debe quedarse en casa. También sobre el bloqueo creativo y el miedo a perder al Clique — que la letra menciona por su nombre."},"13":{"en":"About his grandfather, who died before the album was finished. Keep this thread: it returns in 2025.","es":"Sobre su abuelo, que murió antes de que el disco estuviera listo. Guarda este hilo: reaparece en 2025."},"14":{"en":"It closes on a promise: one day they leave Dema. Melancholy and hopeful at the same time.","es":"Cierra con una promesa: un día salen de Dema. Melancólica y esperanzadora a la vez."}},"2021":{"1":{"en":"Losing everything — job, family, a lawsuit — and insisting it's a good day. Forced joy, in other words: propaganda. In real life, grief.","es":"Perderlo todo — empleo, familia, un juicio — e insistir en que es un buen día. Alegría forzada, o sea, propaganda. En la vida real, duelo."},"2":{"en":"Not managing to stand up for yourself. Choking at the decisive moment, and deciding to change that.","es":"No lograr imponerse. Atragantarse en el momento decisivo, y decidir cambiar eso."},"3":{"en":"Advice not to run from creating; to start even if you start badly. Most common reading: addressed to his younger brother.","es":"Un consejo para no huir de crear; empezar aunque empieces mal. Lectura más común: dirigida a su hermano menor."},"4":{"en":"Being outside the circle. The video shows Clancy and the Torchbearer reaching Voldsøy, where he gains the power to possess bodies.","es":"Estar fuera del círculo. El video muestra a Clancy y al Torchbearer llegando a Voldsøy, donde gana el poder de poseer cuerpos."},"5":{"en":"Dancing with his wife on an endless lockdown Saturday. The video is the submarine: Trash the Dragon, Keons' betrayal, the escape.","es":"Bailar con su esposa en un sábado infinito de cuarentena. El video es el submarino: Trash the Dragon, la traición de Keons, la fuga."},"6":{"en":"A critique of the media and professionalized hate. The dirtiest guitar on the album.","es":"Crítica a los medios y al odio profesionalizado. La guitarra más sucia del disco."},"7":{"en":"Let us live differently. About not needing the synthetic highs other people prescribe.","es":"Déjennos vivir distinto. Sobre no necesitar los subidones sintéticos que otros recetan."},"8":{"en":"Declared admiration without saying to whom: it could be Jenna, Josh or the Clique. The ambiguity is deliberate.","es":"Admiración declarada sin decir a quién: puede ser Jenna, Josh o el Clique. La ambigüedad es a propósito."},"9":{"en":"Light reggae: an invitation for someone to get out of a bad situation.","es":"Reggae ligero: una invitación a que alguien salga de una mala situación."},"10":{"en":"The bishops' voice. <i>We are coming for you.</i> The most threatening track on the album, tucked inside their happiest album.","es":"La voz de los obispos. <i>Vamos por ti.</i> La canción más amenazante del disco, encajada dentro del disco más alegre."},"11":{"d":{"en":"The mask drops. Portraits of people about to give up on life, and the worry about what's left for those who stay. Tyler said it was the intentional clue to what he wanted to do next — and <i>Clancy</i> was born from it.","es":"La máscara cae. Retratos de personas a punto de rendirse con la vida y la preocupación por lo que queda para quienes se quedan. Tyler dijo que era la pista intencional de lo que quería hacer después — y de ahí nació <i>Clancy</i>."},"tag":{"en":"confirmed","es":"confirmado"}}},"2024":{"1":{"en":"Clancy returns to Trench. He admits he compensates fear with bravado. Full of sonic callbacks to <i>Trench</i> and <i>Bandito</i>.","es":"Clancy vuelve a Trench. Admite que compensa el miedo con bravuconería. Llena de citas sonoras a <i>Trench</i> y <i>Bandito</i>."},"2":{"en":"The memory of a night when the narrator walked down the middle of the road wanting to be taken away, until a driver yelled at him to get off the lane. Next semester is the useful lie we tell ourselves so we can make it there.","es":"El recuerdo de una noche en que el narrador caminó por el medio de la carretera queriendo que se lo llevaran, hasta que un conductor le gritó que saliera de la vía. El próximo semestre es la mentira útil que nos contamos para poder llegar hasta allá."},"3":{"en":"The fear of relapse, and the ask for help before slipping.","es":"El miedo a la recaída, y el pedido de ayuda antes de resbalar."},"4":{"en":"Seasonal depression in the Midwest. Winter as a character.","es":"Depresión estacional en el Medio Oeste. El invierno como personaje."},"5":{"en":"Self-destructive night routines; navigating your own head in the dark.","es":"Rutinas nocturnas autodestructivas; navegar la propia cabeza a oscuras."},"6":{"en":"Flashes of memory he can't erase. The idea that we are edited by recollections too short to be fair.","es":"Destellos de memoria que no puede borrar. La idea de que nos editan recuerdos demasiado cortos para ser justos."},"7":{"en":"The physical need to be close to the one you love. For the album he chose the version made for his wife, not the one that became the single.","es":"La necesidad física de estar cerca de quien amas. Para el álbum eligió la versión hecha para su esposa, no la que se volvió single."},"8":{"en":"Deliberately over-the-top bravado. Inside the lore, it works as Clancy performing a power he doesn't have yet.","es":"Bravuconería deliberadamente exagerada. Dentro del lore, funciona como Clancy actuando un poder que aún no tiene."},"9":{"en":"The crossing of Trench to find the Torchbearer again — and, at the same time, navigating his own head. The video reveals Clancy has been alone since Voldsøy.","es":"La travesía de Trench para reencontrar al Torchbearer — y, al mismo tiempo, navegar su propia cabeza. El video revela que Clancy estuvo solo desde Voldsøy."},"10":{"en":"The instant between impulse and reaction, and the discipline of living inside that instant.","es":"El instante entre el impulso y la reacción, y la disciplina de habitar ese instante."},"11":{"en":"Talking to someone in crisis like a voice over the radio: know your dark side so it doesn't catch you off guard.","es":"Hablarle a alguien en crisis como quien habla por radio: conoce tu lado oscuro para que no te tome por sorpresa."},"12":{"en":"The most directly practical track in the catalog: risk looking dumb and check on the friend who disappeared. It's 2009's <i>Friend, Please</i> fifteen years later, with the same job.","es":"La canción más directamente práctica del catálogo: arriesga parecer tonto y busca al amigo que desapareció. Es <i>Friend, Please</i> de 2009 quince años después, con la misma función."},"13":{"en":"6:28, the longest they've ever recorded. The crossing of the strait and the final battle. Musically euphoric, lyrically defeated. It ends with Nico grabbing Clancy by the neck and a cut to black.","es":"6:28, la más larga que han grabado. La travesía del estrecho y la batalla final. Musicalmente eufórica, con letra derrotada. Termina con Nico agarrando a Clancy del cuello y corte a negro."}},"2025":{"1":{"en":"The invasion. Clancy defeats Blurryface, puts on the bishop's red robe and offers the other robes to the Banditos — the Torchbearer refuses. Near the end, Tyler repeats an entire line from 2013's <i>Holding On to You</i>. The video closes with the intro of <i>Heavydirtysoul</i>: the cycle restarting in 2015.","es":"La invasión. Clancy derrota a Blurryface, se pone el manto rojo de obispo y ofrece los demás mantos a los Banditos — el Torchbearer se niega. Cerca del final, Tyler repite una línea entera de <i>Holding On to You</i>, de 2013. El video cierra con la introducción de <i>Heavydirtysoul</i>: el ciclo reiniciándose en 2015."},"2":{"en":"Panic in song form; the bridge mimics the acceleration of an anxiety attack. It holds the album's most important clue: the mention of a <b>new</b> bishop among the familiar fears — himself.","es":"Pánico en forma de canción; el puente imita la aceleración de una crisis de ansiedad. Contiene la pista más importante del disco: la mención de un obispo <b>nuevo</b> entre los miedos conocidos — él mismo."},"3":{"en":"The first time Josh Dun sings on an album. His life told through Tyler's eyes, and the drums as refuge.","es":"La primera vez que Josh Dun canta en un disco. Su vida contada por los ojos de Tyler, y la batería como refugio."},"4":{"en":"No metaphor at all: he feels like garbage. Light production against heavy lyrics. The real theme is the temptation to go back to the familiar illness because it's easier than fighting.","es":"Sin metáfora alguna: se siente basura. Producción ligera contra letra pesada. El tema real es la tentación de volver a la enfermedad conocida porque es más fácil que luchar."},"5":{"en":"The central dilemma: return to the Banditos or accept the seat among the bishops. Musically it switches styles every twenty seconds — indecision turned into form.","es":"El dilema central: volver con los Banditos o aceptar la silla entre los obispos. Musicalmente cambia de estilo cada veinte segundos — la indecisión hecha forma."},"6":{"en":"A rewrite of a 2011 demo known as “Korea”. The Columbus basement as the only place he felt clean. For anyone listening since <i>Regional at Best</i>, it's the album's emotional gut punch.","es":"La reescritura de un demo de 2011 conocido como “Korea”. El sótano de Columbus como el único lugar donde se sentía limpio. Para quien escucha desde <i>Regional at Best</i>, es el golpe emocional del disco."},"7":{"en":"Letting yourself be loved even while feeling unworthy of it.","es":"Dejarse amar aun sintiéndose indigno de eso."},"8":{"en":"Feeling like a target — <i>center mass</i> is the point of the body you aim at. It samples the viral audio of the fan who walked off with one of Josh's drums after a Manchester show: the band turned a real tour incident into canon.","es":"Sentirse un blanco — <i>center mass</i> es el punto del cuerpo al que se apunta. Samplea el audio viral del fan que se llevó un tambor de Josh después de un show en Mánchester: la banda convirtió un incidente real de gira en canon."},"9":{"en":"Grief for his grandfather, compared to a cottonwood falling. A direct counterpoint to <i>Legend</i>, seven years later. Probably the best ballad they've ever written.","es":"Duelo por su abuelo, comparado con un álamo que cae. Contrapunto directo a <i>Legend</i>, siete años después. Probablemente la mejor balada que han escrito."},"10":{"en":"Groove and bass. It ends with real audio of Josh questioning the album's sequencing — they left the production doubt inside the product.","es":"Groove y bajo. Termina con un audio real de Josh cuestionando la secuencia del disco — dejaron la duda de producción dentro del producto."},"11":{"en":"The guilt of being on the road, away from family, and the realization that no place matters if the people aren't there.","es":"La culpa de estar de gira, lejos de la familia, y la percepción de que ningún lugar importa si las personas no están ahí."},"12":{"en":"The count of attempts — a tally is made of strokes, of lines — and the admission of having broken someone's trust. It speaks directly to <i>The Line</i>, made for <i>Arcane</i>.","es":"La cuenta de los intentos — un tally se hace de rayas, de líneas — y la admisión de haber roto la confianza de alguien. Conversa directamente con <i>The Line</i>, hecha para <i>Arcane</i>."},"13":{"en":"The instrumental is 2013's <i>Truce</i> played backwards. Starting over from zero, and the idea that intention is what counts. It closes with a minimal request: just try to exist.","es":"El instrumental es <i>Truce</i>, de 2013, tocada al revés. Volver a empezar de cero, y la idea de que la intención es lo que cuenta. Cierra con un pedido mínimo: apenas intentar existir."},"+":{"en":"A bonus hidden in the <i>Breach: Digital Remains</i> online bundle. It went viral on TikTok and got an edited version on streaming in February 2026, putting the album back on the charts months after release.","es":"Un bonus escondido en el paquete online <i>Breach: Digital Remains</i>. Se volvió viral en TikTok y recibió una versión editada en las plataformas en febrero de 2026, devolviendo el álbum a las listas meses después del lanzamiento."}}}
+tracks:{"2009":{"1":{"en":"An angry prayer demanding proof from God. It defines the band’s method: asking the question out loud instead of faking certainty.","es":"Una oración rabiosa exigiéndole pruebas a Dios. Define el método de la banda: hacer la pregunta en voz alta en vez de fingir certeza."},"2":{"en":"The fear that faith and the self itself will dissolve. Falling as loss of purpose.","es":"El miedo a que la fe y el propio yo se disuelvan. Caer como pérdida de propósito."},"3":{"en":"The portrait of an old man nobody listens to. The fear of growing old irrelevant.","es":"El retrato de un viejo al que nadie escucha. El miedo a envejecer irrelevante."},"4":{"en":"Writing as addiction and as prayer. Spiritual thirst in desert imagery. A cult favorite among longtime fans.","es":"La escritura como adicción y como oración. Sed espiritual en imágenes de desierto. Canción de culto entre los fans antiguos."},"5":{"en":"A direct plea to a friend in deep depression. It’s the discography’s first ask for someone to stay alive — and it shows up in the first half of the first album.","es":"Una súplica directa a un amigo en depresión profunda. Es el primer pedido de la discografía para que alguien siga con vida — y aparece ya en la primera mitad del primer disco."},"6":{"en":"A crowd marching together into the sea. A critique of following the herd without thinking: the embryo of Dema, nine years early.","es":"Una multitud marchando junta hacia el mar. Crítica a seguir al rebaño sin pensar: el embrión de Dema, nueve años antes."},"7":{"d":{"en":"Born out of the 2008–09 recession, when Tyler’s dad lost his job. A plea for someone not to give up.","es":"Nació de la recesión de 2008–09, cuando el papá de Tyler se quedó sin empleo. Un pedido para que alguien no se rinda."},"tag":{"en":"confirmed by his dad","es":"confirmado por su papá"}},"8":{"en":"A lullaby for someone who lost faith in herself.","es":"Una canción de cuna para quien perdió la fe en sí misma."},"9":{"en":"Desire and religious guilt tripping over each other.","es":"Deseo y culpa religiosa atropellándose."},"10":{"en":"The public persona versus what’s under the trapdoor. The first version of the false self that becomes Blurryface in 2015.","es":"La persona pública contra lo que está bajo la trampilla. La primera versión del yo falso que se convierte en Blurryface en 2015."},"11":{"en":"Death as transition. Retroactive curiosity: the car and the torch become, years later, the burning car of <i>Heavydirtysoul</i> and the Torchbearer.","es":"La muerte como transición. Curiosidad retroactiva: el auto y la antorcha se convierten, años después, en el auto en llamas de <i>Heavydirtysoul</i> y en el Torchbearer."},"12":{"en":"Death as a taxi ride: where exactly is it that we’re going.","es":"La muerte como viaje en taxi: adónde es que se va."},"13":{"en":"A request to look at your own life before running through it.","es":"Un pedido de mirar tu propia vida antes de salir corriendo por ella."},"14":{"en":"An island of birds that don’t fly: people with potential never used. It’s the thesis of the whole album.","es":"Una isla de pájaros que no vuelan: gente con potencial nunca usado. Es la tesis de todo el disco."}},"2011":{"1":{"d":{"en":"Addressed to those with self-harm impulses: use that energy for something else.","es":"Dirigida a quien tiene impulsos de autoagresión: usa esa energía para otra cosa."},"tag":{"en":"confirmed","es":"confirmado"}},"2":{"en":"The mind can rule the body. Surrendering to something bigger. Re-recorded for <i>Vessel</i>.","es":"La mente puede dominar al cuerpo. Entregarse a algo más grande. Regrabada en <i>Vessel</i>."},"3":{"en":"Insomnia and inner demons; he refuses to kneel. Re-recorded.","es":"Insomnio y demonios internos; se niega a arrodillarse. Regrabada."},"4":{"en":"<b>Exclusive.</b> The slow town as a comfort bubble that also imprisons. The fear of growing up.","es":"<b>Exclusiva.</b> La ciudad lenta como burbuja de confort que también aprisiona. El miedo a crecer."},"5":{"en":"His car radio really was stolen. Without music, what’s left is silence and your own thoughts. Re-recorded.","es":"De verdad le robaron la radio del auto. Sin música, quedan el silencio y los propios pensamientos. Regrabada."},"6":{"en":"<b>Exclusive.</b> Faith in the middle of panic. Live, one of the biggest catharses in the catalog.","es":"<b>Exclusiva.</b> Fe en medio del pánico. En vivo, una de las mayores catarsis del catálogo."},"7":{"en":"<b>Exclusive.</b> Eyes glowing in the dark; figures pulling you down. Aesthetically, the ancestor of the red-eyed bishops.","es":"<b>Exclusiva.</b> Ojos que brillan en la oscuridad; figuras que jalan hacia abajo. Estéticamente, el ancestro de los obispos de ojos rojos."},"8":{"d":{"en":"<b>Exclusive</b> and maybe the most beloved of the early era. Tyler explained that the kitchen sink is a personal, untransferable symbol: the point is having an intimate reason to stay alive, even if nobody else understands what it is.","es":"<b>Exclusiva</b> y quizá la más querida de la fase antigua. Tyler explicó que el fregadero es un símbolo personal e intransferible: el punto es tener un motivo íntimo para seguir con vida, aunque nadie más entienda cuál es."},"tag":{"en":"confirmed","es":"confirmado"}},"9":{"en":"<b>Exclusive.</b> Excommunication: feeling unworthy of being inside.","es":"<b>Exclusiva.</b> Excomunión: sentirse indigno de estar adentro."},"10":{"en":"<b>Exclusive.</b> The emptiness of appearances.","es":"<b>Exclusiva.</b> El vacío de la apariencia."},"11":{"en":"<b>Exclusive.</b> A letter asking someone not to give up.","es":"<b>Exclusiva.</b> Una carta pidiendo que alguien no se rinda."},"12":{"en":"The search for God in the forest: he wants to be found. Re-recorded.","es":"La búsqueda de Dios en el bosque: él quiere ser encontrado. Regrabada."},"13":{"en":"<b>Exclusive.</b> Doubt about his own calling and about performative religion.","es":"<b>Exclusiva.</b> Duda sobre la propia vocación y sobre la religión performática."},"14":{"en":"<b>Exclusive.</b> The clarity that only comes when you stop pretending.","es":"<b>Exclusiva.</b> La claridad que solo llega cuando dejas de fingir."}},"2013":{"1":{"en":"The dark thoughts come back every night; he screams that he won’t bow. It opens with rap, screaming and melody inside four minutes: a manifesto of method, not an opening track.","es":"Los pensamientos oscuros vuelven cada noche; grita que no se va a doblegar. Abre con rap, grito y melodía en cuatro minutos: es un manifiesto de método, no una canción de apertura."},"2":{"en":"Control: the mind rules the body. It contains the line that, twelve years later, <i>City Walls</i> brings back whole — the most chilling moment on <i>Breach</i> for anyone following since 2013.","es":"Control: la mente domina al cuerpo. Contiene la línea que, doce años después, <i>City Walls</i> recupera entera — el momento más escalofriante de <i>Breach</i> para quien sigue desde 2013."},"3":{"en":"Recurring mental pain. He keeps count of good and bad days and insists they’ve come too far to stop.","es":"El dolor mental recurrente. Lleva la cuenta de días buenos y malos e insiste en que ya llegaron demasiado lejos para parar."},"4":{"en":"A promise to his mom: if this works out, he’ll take care of her. Cheerful ukulele, lyrics about his parents dying. The happy-sound-versus-heavy-theme contrast becomes a signature here.","es":"Una promesa a su mamá: si esto sale bien, él la cuidará. Ukelele alegre, letra sobre la muerte de los padres. El contraste sonido-feliz contra tema-pesado se vuelve firma aquí."},"5":{"en":"Forced silence. Live, it’s the moment the whole arena screams together — and it was the show’s centerpiece for a decade.","es":"El silencio forzado. En vivo, es el momento en que la arena entera grita junta — y fue la pieza central del show por una década."},"6":{"en":"Neither manual nor automatic: <b>semi</b>-automatic. Part of him decides, part acts on its own. The catalog’s best metaphor for dissociation.","es":"Ni manual ni automático: <b>semi</b>automático. Parte de él decide, parte actúa sola. La mejor metáfora del catálogo para la disociación."},"7":{"en":"The collective admission of being broken and not wanting it seen, sung like a choir. The whole album compressed into one chorus.","es":"La admisión colectiva de estar roto y no querer que lo vean, cantada como coro. Es el disco entero comprimido en un estribillo."},"8":{"en":"A cry for help from someone about to run: he warns he needs somebody <i>before</i> disappearing.","es":"Un pedido de ayuda de quien está a punto de huir: avisa que necesita a alguien <i>antes</i> de desaparecer."},"9":{"en":"A relationship where both pretend to be fine.","es":"Una relación en la que los dos fingen estar bien."},"10":{"d":{"en":"For those with guns in their hands — that is, impulses against themselves: transform the energy.","es":"Para quien tiene armas en las manos, o sea, impulsos contra sí mismo: transforma la energía."},"tag":{"en":"confirmed","es":"confirmado"}},"11":{"en":"The spiritual climax. It has closed the shows for over ten years, with the two of them playing drums above the crowd.","es":"El clímax espiritual. Cierra los shows desde hace más de diez años, con los dos tocando tambores sobre el público."},"12":{"en":"Two minutes of piano. A truce with your own mind. The final line — staying alive for someone — is the moral core of the entire discography. In 2025, <i>Breach</i> ends with this track played backwards.","es":"Dos minutos de piano. La tregua con la propia mente. La frase final — seguir con vida por alguien — es el núcleo moral de toda la discografía. En 2025, <i>Breach</i> termina con esta canción tocada al revés."}},"2015":{"1":{"d":{"en":"A cry for help to anyone who can clean a heavy, dirty soul. The video is the lore’s first image: the burning car, Josh playing in the middle of the road.","es":"Un pedido de socorro a alguien que pueda limpiar un alma pesada y sucia. El video es la primera imagen del lore: el auto en llamas, Josh tocando en medio de la carretera."},"tag":{"en":"bishop Keons","es":"obispo Keons"}},"2":{"d":{"en":"Childhood nostalgia and the fear of adult judgment. The first mention of the name Blurryface.","es":"Nostalgia de la infancia y miedo al juicio adulto. Primera mención del nombre Blurryface."},"tag":{"en":"bishop Nico — the only name that doesn’t come out clean from the lyrics, because Nico is Blurryface","es":"obispo Nico — el único nombre que no sale limpio de la letra, porque Nico es Blurryface"}},"3":{"d":{"en":"Who you’d die for, and the habit of overthinking until you’re paralyzed.","es":"Por quién morirías, y el hábito de pensar de más hasta paralizarte."},"tag":{"en":"bishop Listo","es":"obispo Listo"}},"4":{"d":{"en":"The local self and the public self. Blurryface’s deep voice enters the album for the first time.","es":"El yo local y el yo público. La voz grave de Blurryface entra por primera vez en el disco."},"tag":{"en":"bishop Andre","es":"obispo Andre"}},"5":{"d":{"en":"A love song for his wife, Jenna: she cracks his chest open.","es":"Una canción de amor para su esposa, Jenna: ella le abre el pecho."},"tag":{"en":"bishop Sacarver","es":"obispo Sacarver"}},"6":{"d":{"en":"A refusal to stay in the lane the industry assigned. A direct jab at producers who ask for formula.","es":"La negativa a quedarse en el carril que la industria le reservó. Un dardo directo a los productores que piden fórmula."},"tag":{"en":"bishop Vetomo","es":"obispo Vetomo"}},"7":{"en":"He asks the inner judge — and God — whether forgiveness is still possible. It hides Josh Dun’s full name, an easter egg that appears once per album.","es":"Le pregunta al juez interno — y a Dios — si todavía se puede ser perdonado. Esconde el nombre completo de Josh Dun, un easter egg que aparece una vez por álbum."},"8":{"d":{"en":"A plea for faith not to forget him in the middle of doubt.","es":"Un pedido de que la fe no lo olvide en medio de la duda."},"tag":{"en":"bishop Reisdro","es":"obispo Reisdro"}},"9":{"d":{"en":"Splitting yourself in half to separate what’s worth keeping from what isn’t.","es":"Partirse a la mitad para separar lo que sirve de lo que no sirve en uno mismo."},"tag":{"en":"bishop Lisden","es":"obispo Lisden"}},"10":{"en":"Ukulele: he needs a person, not fame.","es":"Ukelele: necesita a una persona, no la fama."},"11":{"en":"A frontal warning to the listener: you have no idea what these songs really mean, so listen properly. The track that authorizes everything that came after.","es":"Una advertencia frontal al oyente: no tienes idea de lo que estas canciones significan realmente, así que escucha bien. Es la canción que autoriza todo lo que vino después."},"12":{"en":"Going back home and recognizing neither the town nor yourself.","es":"Volver a casa y no reconocer ni la ciudad ni a uno mismo."},"13":{"en":"The album’s happiest melody, about the day he decided not to give in. Deliberately grotesque humor.","es":"La melodía más alegre del disco, sobre el día en que decidió no ceder. Humor grotesco a propósito."},"14":{"d":{"en":"The most exposed scream of his career: he begs someone to pull Blurryface out of him.","es":"El grito más expuesto de su carrera: pide que alguien le saque a Blurryface de adentro."},"tag":{"en":"bishop Nills","es":"obispo Nills"}}},"2018":{"1":{"en":"The jumpsuit as armor. He begs his protection not to abandon him. In the video, Nico catches up and marks him.","es":"El mono como armadura. Pide que la protección no lo abandone. En el video, Nico lo alcanza y lo marca."},"2":{"en":"Dense rap about rising and escaping. Clancy is initiated into the Banditos.","es":"Rap denso sobre subir y escapar. Clancy es iniciado en los Banditos."},"3":{"en":"If death is uncertain, he morphs so he won’t be caught. It names Nico explicitly. It hides Josh’s full name.","es":"Si la muerte es incierta, él se transforma para que no lo atrapen. Nombra a Nico explícitamente. Esconde el nombre completo de Josh."},"4":{"en":"Family loyalty: I’ll stay with you even if it’s the worst choice. Written with his brothers in mind.","es":"Lealtad familiar: me quedo contigo aunque sea la peor elección. Escrita pensando en sus hermanos."},"5":{"en":"Creation as chlorine: it burns, but it cleans. His dependent relationship with making music. The video introduces Ned.","es":"La creación como cloro: arde, pero limpia. Su relación de dependencia con hacer música. El video presenta a Ned."},"6":{"en":"Short, light and in love: he’d take a beating for her.","es":"Corta, ligera y enamorada: recibiría una golpiza por ella."},"7":{"en":"<b>The most ethically important track in the catalog.</b> It criticizes the culture that glamorizes artists’ deaths and turns suicide into legacy, and proposes honoring those who grow old and stay. In the lore, the neon gravestones mark the Glorious Gones. It’s the album explaining why the villain preaches what he preaches.","es":"<b>La canción más importante del catálogo desde el punto de vista ético.</b> Critica la cultura que glamoriza la muerte de artistas y convierte el suicidio en legado, y propone honrar a quien envejece y permanece. En el lore, las lápidas de neón marcan a los Glorious Gones. Es el disco explicando por qué el villano predica lo que predica."},"8":{"en":"Fame as noise that almost convinced him to be someone else.","es":"La fama como ruido que casi lo convenció de ser otra persona."},"9":{"en":"The most explicitly narrative track: the nine bishops, the tunnels, the yellow they cannot see.","es":"La canción más explícitamente narrativa: los nueve obispos, los túneles, el amarillo que ellos no pueden ver."},"10":{"en":"Keep going even while hurt. A sports image.","es":"Seguir aun lastimado. Imagen deportiva."},"11":{"en":"The decision to join the resistance and change your name. The track where the fanbase most recognizes itself.","es":"La decisión de unirse a la resistencia y cambiar de nombre. La canción en la que el fandom más se reconoce."},"12":{"en":"The racing mind as a pet cheetah that has to stay indoors. Also about creative block and the fear of losing the Clique — which the lyrics name outright.","es":"La mente acelerada como un guepardo de mascota que debe quedarse en casa. También sobre el bloqueo creativo y el miedo a perder al Clique — que la letra menciona por su nombre."},"13":{"en":"About his grandfather, who died before the album was finished. Keep this thread: it returns in 2025.","es":"Sobre su abuelo, que murió antes de que el disco estuviera listo. Guarda este hilo: reaparece en 2025."},"14":{"en":"It closes on a promise: one day they leave Dema. Melancholy and hopeful at the same time.","es":"Cierra con una promesa: un día salen de Dema. Melancólica y esperanzadora a la vez."}},"2021":{"1":{"en":"Losing everything — job, family, a lawsuit — and insisting it’s a good day. Forced joy, in other words: propaganda. In real life, grief.","es":"Perderlo todo — empleo, familia, un juicio — e insistir en que es un buen día. Alegría forzada, o sea, propaganda. En la vida real, duelo."},"2":{"en":"Not managing to stand up for yourself. Choking at the decisive moment, and deciding to change that.","es":"No lograr imponerse. Atragantarse en el momento decisivo, y decidir cambiar eso."},"3":{"en":"Advice not to run from creating; to start even if you start badly. Most common reading: addressed to his younger brother.","es":"Un consejo para no huir de crear; empezar aunque empieces mal. Lectura más común: dirigida a su hermano menor."},"4":{"en":"Being outside the circle. The video shows Clancy and the Torchbearer reaching Voldsøy, where he gains the power to possess bodies.","es":"Estar fuera del círculo. El video muestra a Clancy y al Torchbearer llegando a Voldsøy, donde gana el poder de poseer cuerpos."},"5":{"en":"Dancing with his wife on an endless lockdown Saturday. The video is the submarine: Trash the Dragon, Keons’ betrayal, the escape.","es":"Bailar con su esposa en un sábado infinito de cuarentena. El video es el submarino: Trash the Dragon, la traición de Keons, la fuga."},"6":{"en":"A critique of the media and professionalized hate. The dirtiest guitar on the album.","es":"Crítica a los medios y al odio profesionalizado. La guitarra más sucia del disco."},"7":{"en":"Let us live differently. About not needing the synthetic highs other people prescribe.","es":"Déjennos vivir distinto. Sobre no necesitar los subidones sintéticos que otros recetan."},"8":{"en":"Declared admiration without saying to whom: it could be Jenna, Josh or the Clique. The ambiguity is deliberate.","es":"Admiración declarada sin decir a quién: puede ser Jenna, Josh o el Clique. La ambigüedad es a propósito."},"9":{"en":"Light reggae: an invitation for someone to get out of a bad situation.","es":"Reggae ligero: una invitación a que alguien salga de una mala situación."},"10":{"en":"The bishops’ voice. <i>We are coming for you.</i> The most threatening track on the album, tucked inside their happiest album.","es":"La voz de los obispos. <i>Vamos por ti.</i> La canción más amenazante del disco, encajada dentro del disco más alegre."},"11":{"d":{"en":"The mask drops. Portraits of people about to give up on life, and the worry about what’s left for those who stay. Tyler said it was the intentional clue to what he wanted to do next — and <i>Clancy</i> was born from it.","es":"La máscara cae. Retratos de personas a punto de rendirse con la vida y la preocupación por lo que queda para quienes se quedan. Tyler dijo que era la pista intencional de lo que quería hacer después — y de ahí nació <i>Clancy</i>."},"tag":{"en":"confirmed","es":"confirmado"}}},"2024":{"1":{"en":"Clancy returns to Trench. He admits he compensates fear with bravado. Full of sonic callbacks to <i>Trench</i> and <i>Bandito</i>.","es":"Clancy vuelve a Trench. Admite que compensa el miedo con bravuconería. Llena de citas sonoras a <i>Trench</i> y <i>Bandito</i>."},"2":{"en":"The memory of a night when the narrator walked down the middle of the road wanting to be taken away, until a driver yelled at him to get off the lane. Next semester is the useful lie we tell ourselves so we can make it there.","es":"El recuerdo de una noche en que el narrador caminó por el medio de la carretera queriendo que se lo llevaran, hasta que un conductor le gritó que saliera de la vía. El próximo semestre es la mentira útil que nos contamos para poder llegar hasta allá."},"3":{"en":"The fear of relapse, and the ask for help before slipping.","es":"El miedo a la recaída, y el pedido de ayuda antes de resbalar."},"4":{"en":"Seasonal depression in the Midwest. Winter as a character.","es":"Depresión estacional en el Medio Oeste. El invierno como personaje."},"5":{"en":"Self-destructive night routines; navigating your own head in the dark.","es":"Rutinas nocturnas autodestructivas; navegar la propia cabeza a oscuras."},"6":{"en":"Flashes of memory he can’t erase. The idea that we are edited by recollections too short to be fair.","es":"Destellos de memoria que no puede borrar. La idea de que nos editan recuerdos demasiado cortos para ser justos."},"7":{"en":"The physical need to be close to the one you love. For the album he chose the version made for his wife, not the one that became the single.","es":"La necesidad física de estar cerca de quien amas. Para el álbum eligió la versión hecha para su esposa, no la que se volvió single."},"8":{"en":"Deliberately over-the-top bravado. Inside the lore, it works as Clancy performing a power he doesn’t have yet.","es":"Bravuconería deliberadamente exagerada. Dentro del lore, funciona como Clancy actuando un poder que aún no tiene."},"9":{"en":"The crossing of Trench to find the Torchbearer again — and, at the same time, navigating his own head. The video reveals Clancy has been alone since Voldsøy.","es":"La travesía de Trench para reencontrar al Torchbearer — y, al mismo tiempo, navegar su propia cabeza. El video revela que Clancy estuvo solo desde Voldsøy."},"10":{"en":"The instant between impulse and reaction, and the discipline of living inside that instant.","es":"El instante entre el impulso y la reacción, y la disciplina de habitar ese instante."},"11":{"en":"Talking to someone in crisis like a voice over the radio: know your dark side so it doesn’t catch you off guard.","es":"Hablarle a alguien en crisis como quien habla por radio: conoce tu lado oscuro para que no te tome por sorpresa."},"12":{"en":"The most directly practical track in the catalog: risk looking dumb and check on the friend who disappeared. It’s 2009’s <i>Friend, Please</i> fifteen years later, with the same job.","es":"La canción más directamente práctica del catálogo: arriesga parecer tonto y busca al amigo que desapareció. Es <i>Friend, Please</i> de 2009 quince años después, con la misma función."},"13":{"en":"6:28, the longest they’ve ever recorded. The crossing of the strait and the final battle. Musically euphoric, lyrically defeated. It ends with Nico grabbing Clancy by the neck and a cut to black.","es":"6:28, la más larga que han grabado. La travesía del estrecho y la batalla final. Musicalmente eufórica, con letra derrotada. Termina con Nico agarrando a Clancy del cuello y corte a negro."}},"2025":{"1":{"en":"The invasion. Clancy defeats Blurryface, puts on the bishop’s red robe and offers the other robes to the Banditos — the Torchbearer refuses. Near the end, Tyler repeats an entire line from 2013’s <i>Holding On to You</i>. The video closes with the intro of <i>Heavydirtysoul</i>: the cycle restarting in 2015.","es":"La invasión. Clancy derrota a Blurryface, se pone el manto rojo de obispo y ofrece los demás mantos a los Banditos — el Torchbearer se niega. Cerca del final, Tyler repite una línea entera de <i>Holding On to You</i>, de 2013. El video cierra con la introducción de <i>Heavydirtysoul</i>: el ciclo reiniciándose en 2015."},"2":{"en":"Panic in song form; the bridge mimics the acceleration of an anxiety attack. It holds the album’s most important clue: the mention of a <b>new</b> bishop among the familiar fears — himself.","es":"Pánico en forma de canción; el puente imita la aceleración de una crisis de ansiedad. Contiene la pista más importante del disco: la mención de un obispo <b>nuevo</b> entre los miedos conocidos — él mismo."},"3":{"en":"The first time Josh Dun sings on an album. His life told through Tyler’s eyes, and the drums as refuge.","es":"La primera vez que Josh Dun canta en un disco. Su vida contada por los ojos de Tyler, y la batería como refugio."},"4":{"en":"No metaphor at all: he feels like garbage. Light production against heavy lyrics. The real theme is the temptation to go back to the familiar illness because it’s easier than fighting.","es":"Sin metáfora alguna: se siente basura. Producción ligera contra letra pesada. El tema real es la tentación de volver a la enfermedad conocida porque es más fácil que luchar."},"5":{"en":"The central dilemma: return to the Banditos or accept the seat among the bishops. Musically it switches styles every twenty seconds — indecision turned into form.","es":"El dilema central: volver con los Banditos o aceptar la silla entre los obispos. Musicalmente cambia de estilo cada veinte segundos — la indecisión hecha forma."},"6":{"en":"A rewrite of a 2011 demo known as “Korea”. The Columbus basement as the only place he felt clean. For anyone listening since <i>Regional at Best</i>, it’s the album’s emotional gut punch.","es":"La reescritura de un demo de 2011 conocido como “Korea”. El sótano de Columbus como el único lugar donde se sentía limpio. Para quien escucha desde <i>Regional at Best</i>, es el golpe emocional del disco."},"7":{"en":"Letting yourself be loved even while feeling unworthy of it.","es":"Dejarse amar aun sintiéndose indigno de eso."},"8":{"en":"Feeling like a target — <i>center mass</i> is the point of the body you aim at. It samples the viral audio of the fan who walked off with one of Josh’s drums after a Manchester show: the band turned a real tour incident into canon.","es":"Sentirse un blanco — <i>center mass</i> es el punto del cuerpo al que se apunta. Samplea el audio viral del fan que se llevó un tambor de Josh después de un show en Mánchester: la banda convirtió un incidente real de gira en canon."},"9":{"en":"Grief for his grandfather, compared to a cottonwood falling. A direct counterpoint to <i>Legend</i>, seven years later. Probably the best ballad they’ve ever written.","es":"Duelo por su abuelo, comparado con un álamo que cae. Contrapunto directo a <i>Legend</i>, siete años después. Probablemente la mejor balada que han escrito."},"10":{"en":"Groove and bass. It ends with real audio of Josh questioning the album’s sequencing — they left the production doubt inside the product.","es":"Groove y bajo. Termina con un audio real de Josh cuestionando la secuencia del disco — dejaron la duda de producción dentro del producto."},"11":{"en":"The guilt of being on the road, away from family, and the realization that no place matters if the people aren’t there.","es":"La culpa de estar de gira, lejos de la familia, y la percepción de que ningún lugar importa si las personas no están ahí."},"12":{"en":"The count of attempts — a tally is made of strokes, of lines — and the admission of having broken someone’s trust. It speaks directly to <i>The Line</i>, made for <i>Arcane</i>.","es":"La cuenta de los intentos — un tally se hace de rayas, de líneas — y la admisión de haber roto la confianza de alguien. Conversa directamente con <i>The Line</i>, hecha para <i>Arcane</i>."},"13":{"en":"The instrumental is 2013’s <i>Truce</i> played backwards. Starting over from zero, and the idea that intention is what counts. It closes with a minimal request: just try to exist.","es":"El instrumental es <i>Truce</i>, de 2013, tocada al revés. Volver a empezar de cero, y la idea de que la intención es lo que cuenta. Cierra con un pedido mínimo: apenas intentar existir."},"+":{"en":"A bonus hidden in the <i>Breach: Digital Remains</i> online bundle. It went viral on TikTok and got an edited version on streaming in February 2026, putting the album back on the charts months after release.","es":"Un bonus escondido en el paquete online <i>Breach: Digital Remains</i>. Se volvió viral en TikTok y recibió una versión editada en las plataformas en febrero de 2026, devolviendo el álbum a las listas meses después del lanzamiento."}}}
 };
 const IA = a => (I18N.albums[a.yr]||{});
 
@@ -639,6 +587,8 @@ function applyStatic(){
     nd.innerHTML = v;
     if(nd.dataset.i18n==="discosNote") nd.style.display = v ? "" : "none";
   });
+  const tb = document.getElementById("txBtn");
+  if(tb) tb.setAttribute("aria-label", U("txAria"));
   document.querySelectorAll("#langs button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===LANG)));
 }
 
@@ -662,25 +612,10 @@ const GLOSS = [
 const TIMELINE = [
   ["antes","Clancy escreve","Ele vive em Dema há anos, começa a duvidar do vialismo e fica conhecido pelas cartas que escreve sobre a cidade."],
   ["2015","A insegurança ganha nome","O clipe de <i>Heavydirtysoul</i> mostra a segunda tentativa de fuga: o carro pegando fogo na estrada, Josh tocando no meio da pista."],
-  ["2018","Caçado e resgatado","<i>Jumpsuit</i>: ele acorda em Trench e é alcançado por Nico a cavalo, que o marca com tinta. <i>Nico and the Niners</i>: os Banditos o tiram por túneis durante um ritual. <i>Levitate</i>: é iniciado — e recapturado."],
+  ["2018","Caçado e resgatado","<i>Jumpsuit</i>: Ele acorda em Trench e é alcançado por Nico a cavalo, que o marca com tinta. <i>Nico and the Niners</i>: Os Banditos o tiram por túneis durante um ritual. <i>Levitate</i>: É iniciado — e recapturado."],
   ["2021","Forçado a sorrir","De volta a Dema, obrigado a se apresentar num programa de propaganda. O bispo Keons trai os outros, liberta os dois e morre por isso. Em Voldsøy, Clancy ganha o poder de possuir corpos."],
   ["2024","A travessia","Volta a Trench, recruta, reencontra o Torchbearer e invade a torre central. <i>Paladin Strait</i> termina com Nico agarrando-o pelo pescoço."],
   ["2025","O fim que não é fim","<i>City Walls</i>: Clancy derrota o Blurryface — e veste o manto vermelho de bispo. O Torchbearer recusa segui-lo, diz que aquilo ali não é mais o Clancy e que vão tentar de novo. Nos segundos finais toca a introdução de <i>Heavydirtysoul</i>. O ciclo recomeça em 2015."]
-];
-
-/* ---------- os nove bispos · ordem = código de violação ----------
-   [ nome, nº da faixa em Blurryface, título da faixa, nota ]            */
-const CODE = ["1","5","3","9","8","6","4","2","14"];
-const BISPOS = [
-  ["Keons",1,"Heavydirtysoul","O bispo que trai os outros oito em 2021 — liberta o Clancy e o Torchbearer, e morre por isso. O nome do traidor estava na primeira faixa do disco desde 2015."],
-  ["Sacarver",5,"Tear in My Heart","Guardado dentro da canção de amor escrita para a Jenna. A faixa mais luminosa do disco esconde um carcereiro."],
-  ["Listo",3,"Ride","Na faixa que todo mundo cantou no rádio. Reggae-pop na superfície, nome de bispo por baixo — o disfarce nunca foi o ponto."],
-  ["Lisden",9,"Polarize","Faixa 9 — o mesmo número dos bispos, dos distritos e dos círculos da capa. Cada círculo é uma faixa; cada faixa, um nome."],
-  ["Reisdro",8,"Doubt","Escondido no pedido para que a fé não o esqueça no meio da dúvida."],
-  ["Vetomo",6,"Lane Boy","Dentro da recusa de ficar na pista que a indústria reservou — num disco que vendeu 6× platina."],
-  ["Andre",4,"Fairly Local","Onde a voz grave do Blurryface entra no disco pela primeira vez. Em 2015 parecia efeito de estúdio; era personagem."],
-  ["Nico",2,"Stressed Out","O bispo-chefe, e o único nome que não sai limpo da letra: Nico é o Blurryface. Nome completo, Nicolas Bourbaki — na vida real, o pseudônimo coletivo de um grupo de matemáticos franceses. Um nome que na verdade são muitas pessoas."],
-  ["Nills",14,"Goner","Fecha o código com o grito mais exposto da carreira: ele pede que alguém tire o Blurryface de dentro dele."]
 ];
 
 const ALBUNS = [
@@ -691,19 +626,19 @@ const ALBUNS = [
     txt:["Gravado no porão da casa dos pais, em Columbus, com a formação de quatro pessoas — Josh Dun ainda não existe na banda. Piano, poesia falada e teologia em primeira pessoa.",
          "Nenhum lore. Mas praticamente todos os temas dos dezesseis anos seguintes já estão aqui."],
     img:"Dezenas de marcas de asas espalhadas pelo chão e só três subindo, sob uma luz de vela vinda de baixo. É a <i>Isle of Flightless Birds</i>: potencial que nunca foi usado.",
-    facts:["14 faixas","auto-lançado","Columbus, Ohio"],
+    facts:["14 faixas","autolançado","Columbus, Ohio"],
     trks:[
       [1,"Implicit Demand for Proof","Uma oração raivosa pedindo prova a Deus. Define o método da banda: fazer a pergunta em voz alta em vez de fingir certeza.",0],
       [2,"Fall Away","Medo de que a fé e o próprio eu se dissolvam. Cair como perda de propósito.",0],
       [3,"The Pantaloon","Retrato de um velho que ninguém escuta. Medo de envelhecer irrelevante.",0],
       [4,"Addict with a Pen","A escrita como vício e como oração. Sede espiritual em imagem de deserto. Faixa-culto entre os fãs antigos.",0],
-      [5,"Friend, Please","Súplica direta a um amigo em depressão profunda. É o primeiro pedido para alguém ficar vivo da discografia — e ele aparece já na primeira metade do primeiro disco.",0],
+      [5,"Friend, Please","Súplica direta a um amigo em depressão profunda. É o primeiro pedido da discografia para alguém ficar vivo — e ele aparece já na primeira metade do primeiro disco.",0],
       [6,"March to the Sea","Uma multidão marchando junta para o mar. Crítica a seguir o rebanho sem pensar: o embrião de Dema, nove anos antes.",0],
       [7,"Johnny Boy","Nasceu da recessão de 2008–09, quando o pai do Tyler ficou desempregado. Um pedido para que alguém não desista.",0,"confirmado pelo pai dele"],
       [8,"Oh Ms Believer","Canção de ninar para quem perdeu a fé em si.",0],
       [9,"Air Catcher","Desejo e culpa religiosa se atropelando.",0],
       [10,"Trapdoor","A persona pública contra o que está embaixo do alçapão. A primeira versão do eu falso que vira Blurryface em 2015.",0],
-      [11,"A Car, a Torch, a Death","A morte como transição. Curiosidade retroativa: carro e tocha viram, anos depois, o carro em chamas de <i>Heavydirtysoul</i> e o Torch-bearer.",0],
+      [11,"A Car, a Torch, a Death","A morte como transição. Curiosidade retroativa: carro e tocha viram, anos depois, o carro em chamas de <i>Heavydirtysoul</i> e o Torchbearer.",0],
       [12,"Taxi Cab","A morte como corrida de táxi: para onde é que se vai.",0],
       [13,"Before You Start Your Day","Pedido para olhar a própria vida antes de sair correndo por ela.",0],
       [14,"Isle of Flightless Birds","Uma ilha de pássaros que não voam: gente com potencial nunca usado. É a tese do disco inteiro.",0]
@@ -714,7 +649,7 @@ const ALBUNS = [
     bg:"#0C1417", ink:"#E4EEF0", acc:"#6FA8B5",
     tema:"Identidade artística e o medo de virar produto.",
     txt:["O disco de transição — Josh Dun entra na banda nesse período. Foi retirado das lojas quando assinaram com a Fueled by Ramen, e seis faixas foram regravadas para <i>Vessel</i>, o que transformou o álbum num objeto de culto absurdo.",
-         "É aqui que nasce o Skeleton Clique e a estética das caveiras."],
+         "É aqui que nascem o Skeleton Clique e a estética das caveiras."],
     img:"Uma grade regular de pontos idênticos — o <i>regional</i> — e um único nó com ondas concêntricas se propagando. É <i>Kitchen Sink</i>: o significado privado que ninguém mais enxerga.",
     facts:["14 faixas","8 exclusivas","fora do streaming"],
     trks:[
@@ -722,8 +657,8 @@ const ALBUNS = [
       [2,"Holding On to You","A mente pode dominar o corpo. Entregar-se a algo maior. Regravada em <i>Vessel</i>.",0],
       [3,"Ode to Sleep","Insônia e demônios internos; ele se recusa a se ajoelhar. Regravada.",0],
       [4,"Slowtown","<b>Exclusiva.</b> A cidade lenta como bolha de conforto que também aprisiona. O medo de crescer.",0],
-      [5,"Car Radio","Roubaram o rádio do carro dele de verdade. Sem música, sobra o silêncio e os próprios pensamentos. Regravada.",0],
-      [6,"Forest","<b>Exclusiva.</b> Fé no meio do pânico. Ao vivo, uma das catarses maiores do catálogo.",0],
+      [5,"Car Radio","Roubaram o rádio do carro dele de verdade. Sem música, sobram o silêncio e os próprios pensamentos. Regravada.",0],
+      [6,"Forest","<b>Exclusiva.</b> Fé no meio do pânico. Ao vivo, uma das maiores catarses do catálogo.",0],
       [7,"Glowing Eyes","<b>Exclusiva.</b> Olhos brilhando no escuro; figuras que puxam para baixo. Esteticamente, o ancestral dos bispos de olhos vermelhos.",0],
       [8,"Kitchen Sink","<b>Exclusiva</b> e talvez a mais amada da fase antiga. Tyler explicou que a pia da cozinha é um símbolo pessoal e intransferível: o ponto é ter um motivo íntimo para continuar vivo, mesmo que ninguém mais entenda qual é.",0,"confirmado"],
       [9,"Anathema","<b>Exclusiva.</b> Excomunhão: sentir-se indigno de estar dentro.",0],
@@ -746,7 +681,7 @@ const ALBUNS = [
       [1,"Ode to Sleep","Os pensamentos escuros voltam toda noite; ele grita que não vai se curvar. Abre com rap, grito e melodia em quatro minutos: é um manifesto de método, não uma faixa de abertura.",0],
       [2,"Holding On to You","Controle: a mente domina o corpo. Contém a linha que, doze anos depois, <i>City Walls</i> recupera inteira — o momento mais arrepiante de <i>Breach</i> para quem acompanha desde 2013.",0],
       [3,"Migraine","A dor mental recorrente. Ele contabiliza dias bons e ruins e insiste que já chegaram longe demais para parar.",0],
-      [4,"House of Gold","Promessa à mãe: se der certo, ele cuida dela. Ukulele alegre, letra sobre a morte dos pais. O contraste letra-feliz contra tema-pesado vira assinatura aqui.",0],
+      [4,"House of Gold","Promessa à mãe: se der certo, ele cuida dela. Ukulele alegre, letra sobre a morte dos pais. O contraste som-feliz contra tema-pesado vira assinatura aqui.",0],
       [5,"Car Radio","O silêncio forçado. Ao vivo, é o momento em que a arena inteira grita junto — e virou a peça central do show por uma década.",0],
       [6,"Semi-Automatic","Nem manual, nem automático: <b>semi</b>automático. Parte dele decide, parte age sozinha. A melhor metáfora do catálogo para dissociação.",0],
       [7,"Screen","A admissão coletiva de estar quebrado e não querer que vejam, cantada como coral. É o disco inteiro comprimido em um refrão.",0],
@@ -773,13 +708,13 @@ const ALBUNS = [
       [4,"Fairly Local","O eu local e o eu público. A voz grave do Blurryface entra pela primeira vez no disco.",1,"bispo Andre"],
       [5,"Tear in My Heart","Canção de amor para a esposa, Jenna: ela abre o peito dele.",1,"bispo Sacarver"],
       [6,"Lane Boy","Recusa a ficar na pista que a indústria reservou. Alfinetada direta em produtores que pedem fórmula.",1,"bispo Vetomo"],
-      [7,"The Judge","Pergunta ao juiz interno — e a Deus — se ainda dá para ser perdoado. Esconde o nome completo do Josh Dun, easter egg que aparece uma vez por álbum.",0],
+      [7,"The Judge","Pergunta ao juiz interno — e a Deus — se ainda dá para ser perdoado. Esconde o nome completo do Josh Dun, um easter egg que aparece uma vez por álbum.",0],
       [8,"Doubt","Pedido para que a fé não o esqueça no meio da dúvida.",1,"bispo Reisdro"],
       [9,"Polarize","Dividir-se ao meio para separar o que presta do que não presta em si.",1,"bispo Lisden"],
       [10,"We Don't Believe What's on TV","Ukulele: ele precisa de uma pessoa, não de fama.",0],
       [11,"Message Man","Aviso frontal ao ouvinte: você não faz ideia do que essas músicas realmente significam, então escute direito. É a faixa que autoriza tudo que veio depois.",0],
       [12,"Hometown","Voltar para casa e não reconhecer nem a cidade nem a si mesmo.",0],
-      [13,"Not Today","A melodia mais alegre do disco sobre o dia em que ele decidiu não ceder. Humor grotesco proposital.",0],
+      [13,"Not Today","A melodia mais alegre do disco, sobre o dia em que ele decidiu não ceder. Humor grotesco proposital.",0],
       [14,"Goner","O grito mais exposto da carreira: ele pede que alguém tire o Blurryface de dentro dele.",1,"bispo Nills"]
     ]
   },
@@ -805,7 +740,7 @@ const ALBUNS = [
       [10,"Cut My Lip","Continuar mesmo machucado. Imagem esportiva.",0],
       [11,"Bandito","A decisão de entrar na resistência e trocar de nome. A faixa em que a fanbase mais se reconhece.",1],
       [12,"Pet Cheetah","A mente veloz como uma chita de estimação que precisa ficar dentro de casa. Também sobre bloqueio criativo e sobre o medo de perder o Clique — que a letra cita nominalmente.",0],
-      [13,"Legend","Sobre o avô, que morreu antes do disco ficar pronto. Guarde esse fio: ele reaparece em 2025.",0],
+      [13,"Legend","Sobre o avô, que morreu antes de o disco ficar pronto. Guarde esse fio: ele reaparece em 2025.",0],
       [14,"Leave the City","Fecha em promessa: um dia eles saem de Dema. Melancólico e esperançoso ao mesmo tempo.",1]
     ]
   },
@@ -861,7 +796,7 @@ const ALBUNS = [
     yr:"2025", date:"12 SET", ttl:"Breach", kind:"o fim que não é fim",
     bg:"#0D0D0F", ink:"#EDEDED", acc:"#F2F2F2",
     tema:"Descobrir que não existe fim.",
-    txt:["O título tem três significados simultâneos, e todos são intencionais: <b>invadir</b> a muralha de Dema; <b>quebrar a confiança</b> — Tyler explicou ao Zane Lowe que sentiram ter feito uma direção falsa ao apresentar <i>Clancy</i> como o fim, e batizaram o disco seguinte com o nome dessa quebra; e <b>a brecha</b>, a fresta por onde a coisa toda recomeça.",
+    txt:["O título tem três significados simultâneos, e todos são intencionais: <b>invadir</b> a muralha de Dema; <b>quebrar a confiança</b> — Tyler explicou ao Zane Lowe que sentiram ter apontado uma direção falsa ao apresentar <i>Clancy</i> como o fim, e batizaram o disco seguinte com o nome dessa quebra; e <b>a brecha</b>, a fresta por onde a coisa toda recomeça.",
          "Eles transformaram o próprio erro de marketing em título e em tema."],
     img:"Um muro de fiadas rachado por uma fratura de luz. Atrás, fantasma e de cabeça para baixo, o recipiente de 2013 — porque <i>Intentions</i> é <i>Truce</i> tocada ao contrário. E uma única pétala amarela atravessando a fratura.",
     facts:["#1 nos EUA · 200 mil unidades","maior estreia da carreira","maior semana de vinil de um disco de rock desde 1991","13 faixas no top 40 de rock"],
@@ -873,7 +808,7 @@ const ALBUNS = [
       [5,"The Contract","O dilema central: voltar para os Banditos ou aceitar a cadeira entre os bispos. Musicalmente troca de estilo a cada vinte segundos — a indecisão virou forma.",1],
       [6,"Downstairs","Reescrita de uma demo de 2011 conhecida como “Korea”. O porão de Columbus como o único lugar onde ele se sentia limpo. Para quem ouve desde <i>Regional at Best</i>, é o soco emocional do disco.",0],
       [7,"Robot Voices","Deixar-se amar mesmo se achando indigno disso.",0],
-      [8,"Center Mass","Sentir-se alvo — <i>center mass</i> é o ponto do corpo em que se mira. Samplea o áudio viral do fã que levou um tambor do Josh embora depois de um show em Manchester: a banda transformou um incidente real da turnê em cânone.",0],
+      [8,"Center Mass","Sentir-se alvo — <i>center mass</i> é o ponto do corpo em que se mira. Sampleia o áudio viral do fã que levou um tambor do Josh embora depois de um show em Manchester: a banda transformou um incidente real da turnê em cânone.",0],
       [9,"Cottonwood","Luto pelo avô, comparado a um álamo que cai. Contraponto direto a <i>Legend</i>, sete anos depois. Provavelmente a melhor balada que já escreveram.",0],
       [10,"One Way","Groove e baixo. Termina com um áudio real do Josh questionando a sequência do disco — deixaram a dúvida de produção dentro do produto.",0],
       [11,"Days Lie Dormant","A culpa de estar na estrada, longe da família, e a percepção de que lugar nenhum importa se as pessoas não estão lá.",0],
@@ -910,7 +845,7 @@ const WARN = [
   "<b>Havia seis anos de base antes do primeiro hit.</b> 2009 a 2015 foram porão, van, shows pequenos em Columbus e dois discos independentes. O ARG de 2018 só funcionou porque já existia gente disposta a decodificar. Lore sem comunidade prévia é enigma sem plateia.",
   "<b>Timing irreproduzível.</b> 2015–2016 foi provavelmente a última janela em que um ato de rock estourava ao mesmo tempo no rádio e no streaming.",
   "<b>O lastro é real.</b> O lore é sobre uma condição que o autor tem de verdade. Ficção construída sem lastro emocional vira ARG vazio, e o público sente a diferença rápido.",
-  "<b>A crítica existe e é legítima.</b> <i>Breach</i> dividiu: 6,2 na Pitchfork contra 9º lugar na lista de melhores do ano da Kerrang!. Há uma leitura defensável de que o lore, em certos momentos, compensa canções que sozinhas não se sustentariam — e de que a dependência entre banda e fandom tem um lado parassocial que ninguém deveria romantizar.",
+  "<b>A crítica existe e é legítima.</b> <i>Breach</i> dividiu: 6,2 na Pitchfork contra o 9º lugar na lista de melhores do ano da Kerrang! Há uma leitura defensável de que o lore, em certos momentos, compensa canções que sozinhas não se sustentariam — e de que a dependência entre banda e fandom tem um lado parassocial que ninguém deveria romantizar.",
   "<b>A pergunta em aberto:</b> o ciclo fechou em 2025. O que sustenta a próxima década, agora que o inimigo nomeado foi derrotado — e virou o protagonista?"
 ];
 
@@ -922,7 +857,7 @@ const $ = (s,r=document)=>r.querySelector(s);
 const el = (t,c,h)=>{ const n=document.createElement(t); if(c) n.className=c; if(h!=null) n.innerHTML=h; return n; };
 
 function renderData(){
-["gloss","tl","bsp","bspcode","eras","cx","mech","warn"].forEach(cid=>{ const nn=document.getElementById(cid); if(nn) nn.innerHTML=""; });
+["gloss","tl","eras","cx","mech","warn"].forEach(cid=>{ const nn=document.getElementById(cid); if(nn) nn.innerHTML=""; });
 
 // glossário
 GLOSS.forEach(([t,d],gi)=>{
@@ -939,29 +874,6 @@ TIMELINE.forEach(([n,t,d],ti)=>{
   i.append(el("span","tl__n",ov(n,T.n)), (()=>{ const b=el("div"); b.append(el("h3","tl__t",ov(t,T.t)), el("p","tl__d",ov(d,T.d))); return b; })());
   $("#tl").append(i);
 });
-
-// bispos
-const bspWrap = $("#bsp"), codeWrap = $("#bspcode");
-if(bspWrap && codeWrap){
-  BISPOS.forEach(([nome,trk,song,txt],bi)=>{
-    const c = el("div","bsp__i reveal");
-    c.id = "bispo-" + nome.toLowerCase();
-    const cv = el("canvas","bsp__cv"); cv.dataset.bsp = bi; cv.setAttribute("aria-hidden","true");
-    const B = (I18N.bishops[bi]||{});
-    c.append(cv,
-      el("span","bsp__n", String(bi+1).padStart(2,"0") + "/09"),
-      el("h3","bsp__nm", nome),
-      el("span","bsp__meta", U("bispHidden") + " «" + song + "» · " + U("bispTrack") + " " + String(trk).padStart(2,"0")),
-      el("p","bsp__txt", ov(txt, B.d)));
-    bspWrap.append(c);
-  });
-  CODE.forEach((n,ci)=>{
-    const b = el("button","dig", (n==="14"?"_":"") + n);
-    b.type = "button"; b.dataset.i = ci; b.setAttribute("aria-pressed","false");
-    b.setAttribute("aria-label", U("bispTrack") + " " + n + " · " + BISPOS[ci][0]);
-    codeWrap.append(b);
-  });
-}
 
 // eras
 const erasWrap = $("#eras");
@@ -998,12 +910,7 @@ ALBUNS.forEach((a,i)=>{
     const h = el("h4","trk__t", t + (lore?' <span class="glyph">⟡</span>':""));
     const TRX=(I18N.tracks[a.yr]||{})[n];
     b.append(h, el("p","trk__d", ov(d, TRX && TRX.d ? TRX.d : TRX)));
-    if(tag){
-      const tx = ov(tag, TRX && TRX.tag);
-      const mb = String(tag).match(/Keons|Nico|Listo|Andre|Sacarver|Vetomo|Reisdro|Lisden|Nills/i);
-      if(mb){ const lk = el("a","tag tag--link", tx); lk.href = "#bispo-" + mb[0].toLowerCase(); b.append(lk); }
-      else b.append(el("span","tag", tx));
-    }
+    if(tag) b.append(el("span","tag", ov(tag, TRX && TRX.tag)));
     li.append(b); ol.append(li);
   });
 
@@ -1137,7 +1044,7 @@ const PAINT = [
     g.lineWidth=Math.max(1.6,w*.0042); g.lineJoin="round"; g.stroke();
     const hw=sw*(0.62+0.38*lvl);
     g.beginPath(); for(let x=-hw;x<=hw;x+=6){ const y=ly+Math.sin((x+sw)*.014)*w*.005;
-      x===-hw?g.moveTo(cx+x,y):g.lineTo(cx+x,y);} 
+      x===-hw?g.moveTo(cx+x,y):g.lineTo(cx+x,y);}
     g.strokeStyle="rgba(198,204,255,"+Math.min(1,a*1.1)+")";
     g.lineWidth=Math.max(1.4,w*.0032); g.stroke();
     if(i%2===0){ let x=cx-sw*.5,y=base-sh*.62; const pts=[[x,y]];
@@ -1330,162 +1237,7 @@ const PAINT = [
 }
 ];
 
-/* ═══════════════════════════════════════════════════════════
-   OS NOVE SIGILOS — o mesmo desenho das peças do Instagram,
-   redesenhado aqui em canvas (nada de imagem carregada).
-   ═══════════════════════════════════════════════════════════ */
-
-const TAU = Math.PI*2, KG = 1.42;                    // ganho: as linhas precisam sobreviver ao card pequeno
-const cl  = a => Math.max(0, Math.min(1, a));
-const bi_ = a => "rgba(232,227,217," + cl(a*KG) + ")";
-const by_ = a => "rgba(252,227,0,"   + cl(a)    + ")";
-const br_ = a => "rgba(193,18,31,"   + cl(a*KG) + ")";
-const bl_ = (g,x1,y1,x2,y2,col,w)=>{ g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.strokeStyle=col; g.lineWidth=w; g.stroke(); };
-const ba_ = (g,cx,cy,r,a0,a1,col,w)=>{ if(r<=0) return; g.beginPath(); g.arc(cx,cy,r,a0,a1); g.strokeStyle=col; g.lineWidth=w; g.stroke(); };
-const bd_ = (g,x,y,r,col)=>{ g.beginPath(); g.arc(x,y,Math.max(.6,r),0,TAU); g.fillStyle=col; g.fill(); };
-
-/* o mostrador comum: a bússola de Dema, com o E em cima */
-function bDial(g,cx,cy,R){
-  const u = R*.012;
-  ba_(g,cx,cy,R,0,TAU,bi_(.55),Math.max(1,u));
-  for(let i=0;i<72;i++){
-    const th=i/72*TAU, big=(i%18===0), r0=R-(big?R*.115:R*.052);
-    bl_(g, cx+Math.cos(th)*r0, cy+Math.sin(th)*r0, cx+Math.cos(th)*R, cy+Math.sin(th)*R,
-        bi_(big?.40:.16), Math.max(1, big?u*1.2:u*.8));
-  }
-  g.font = '500 ' + Math.max(9, Math.round(R*.125)) + 'px "JetBrains Mono", ui-monospace, monospace';
-  g.textAlign="center"; g.textBaseline="middle"; g.fillStyle=bi_(.52);
-  [["E",-Math.PI/2],["S",0],["W",Math.PI/2],["N",Math.PI]].forEach(([t,th])=>{
-    g.fillText(t, cx+Math.cos(th)*R*1.16, cy+Math.sin(th)*R*1.16);
-  });
-}
-
-/* o acento amarelo — um por peça, sempre: a cor que eles não veem */
-function bSpark(g,x,y,s){
-  bd_(g,x,y,s*3, by_(.06));
-  [0,Math.PI/2].forEach(th=>{
-    bl_(g, x-Math.cos(th)*s*3.2, y-Math.sin(th)*s*3.2, x+Math.cos(th)*s*3.2, y+Math.sin(th)*s*3.2,
-        by_(.95), Math.max(1.1, s*.5));
-  });
-  bd_(g,x,y,Math.max(1.3,s*.55), by_(1));
-}
-
-const BSIG = [
-// 01 Keons — a muralha aberta, o fogo na estrada
-(g,cx,cy,R,r)=>{
-  const g0=-62*Math.PI/180, g1=62*Math.PI/180, u=R*.012;
-  [[R*.62,.55],[R*.44,.35]].forEach(([rr,al])=> ba_(g,cx,cy,rr,g1,g0+TAU,bi_(al),Math.max(1,u*1.3)));
-  for(let i=0;i<26;i++){
-    const th=g0+(g1-g0)*i/25, r0=R*.40+r()*R*.10, r1=R*(.86+r()*.26);
-    bl_(g, cx+Math.cos(th)*r0, cy+Math.sin(th)*r0, cx+Math.cos(th)*r1, cy+Math.sin(th)*r1,
-        bi_(.10+r()*.30), Math.max(1,u*.8));
-  }
-  const t=-40*Math.PI/180;
-  bSpark(g, cx+Math.cos(t)*R*1.06, cy+Math.sin(t)*R*1.06, R*.026);
-},
-// 02 Sacarver — o peito aberto
-(g,cx,cy,R,r)=>{
-  const off=R*.085, u=R*.012;
-  [-1,1].forEach(sd=>{
-    [[R*.66,.55],[R*.48,.34],[R*.30,.22]].forEach(([rr,al])=>{
-      ba_(g, cx+sd*off, cy, rr, sd>0?-Math.PI/2:Math.PI/2, sd>0?Math.PI/2:Math.PI*1.5, bi_(al), Math.max(1,u*1.3));
-    });
-  });
-  for(let k=0;k<9;k++){ const y=cy-R*.70+k*R*.175; bl_(g, cx-off*.5, y, cx+off*.5, y, bi_(.18), Math.max(1,u*.8)); }
-  bSpark(g,cx,cy-R*.40,R*.026);
-},
-// 03 Listo — o pensamento que gira e não chega
-(g,cx,cy,R,r)=>{
-  const u=R*.012, N=560, sp=t=>{ const th=t*TAU*4.2-Math.PI/2, rr=R*.74*(1-t)+R*.06; return [cx+Math.cos(th)*rr, cy+Math.sin(th)*rr]; };
-  g.beginPath();
-  for(let i=0;i<=N;i++){ const p=sp(i/N); i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]); }
-  g.strokeStyle=bi_(.60); g.lineWidth=Math.max(1,u*1.3); g.lineJoin="round"; g.stroke();
-  for(let k=0;k<3;k++){ const rr=R*(.30+k*.18), th=-Math.PI/2+k*1.9; bd_(g, cx+Math.cos(th)*rr, cy+Math.sin(th)*rr, R*.018, bi_(.40)); }
-  const p=sp(40/N); bSpark(g,p[0],p[1],R*.026);
-},
-// 04 Lisden — dividir-se ao meio
-(g,cx,cy,R,r)=>{
-  const ang=-28*Math.PI/180, ux=Math.cos(ang), uy=Math.sin(ang), nx=-uy, ny=ux, u=R*.012;
-  bl_(g, cx-ux*R*.92, cy-uy*R*.92, cx+ux*R*.92, cy+uy*R*.92, bi_(.70), Math.max(1,u*1.3));
-  for(let k=1;k<15;k++){
-    const o=k*R*.056, half=Math.sqrt(Math.max(0,(R*.80)*(R*.80)-o*o));
-    bl_(g, cx+nx*o-ux*half, cy+ny*o-uy*half, cx+nx*o+ux*half, cy+ny*o+uy*half, bi_(.34), Math.max(1,u));
-  }
-  for(let k=1;k<6;k++) ba_(g,cx,cy,R*(.20+k*.13), ang+Math.PI, ang+TAU, bi_(.30), Math.max(1,u));
-  bSpark(g, cx-ux*R*.74, cy-uy*R*.74, R*.026);
-},
-// 05 Reisdro — a fé virando pontilhado
-(g,cx,cy,R,r)=>{
-  [R*.80,R*.60,R*.40,R*.22].forEach((rr,k)=>{
-    const n=84-k*14;
-    for(let i=0;i<n;i++){
-      const t=i/n, th=t*TAU-Math.PI/2, al=.62-t*.78-k*.05;
-      if(al<=.02) continue;
-      bd_(g, cx+Math.cos(th)*rr, cy+Math.sin(th)*rr, t<.5?R*.013:R*.009, bi_(al));
-    }
-  });
-  const th=-Math.PI/2+.34;
-  bSpark(g, cx+Math.cos(th)*R*.80, cy+Math.sin(th)*R*.80, R*.026);
-},
-// 06 Vetomo — a pista, e o que sai dela
-(g,cx,cy,R,r)=>{
-  const u=R*.012;
-  for(let k=-4;k<=4;k++){
-    const y=cy+k*R*.19, half=Math.sqrt(Math.max(0,(R*.84)*(R*.84)-(k*R*.19)*(k*R*.19)));
-    if(k===1){ bl_(g, cx-half, y, cx+R*1.08, y, bi_(.85), Math.max(1,u*1.5)); continue; }
-    bl_(g, cx-half, y, cx+half, y, bi_(.22+Math.abs(k)*.04), Math.max(1,u*1.2));
-  }
-  bSpark(g, cx+R*1.10, cy+R*.19, R*.026);
-},
-// 07 Andre — o eu local e o eu público
-(g,cx,cy,R,r)=>{
-  const o=R*.26, rr=R*.62, u=R*.012;
-  ba_(g, cx-o, cy, rr, 0, TAU, bi_(.62), Math.max(1,u*1.3));
-  for(let i=0;i<96;i++){ const th=i/96*TAU; bd_(g, cx+o+Math.cos(th)*rr, cy+Math.sin(th)*rr, R*.011, bi_(.42)); }
-  for(let k=0;k<3;k++) ba_(g,cx,cy,R*(.10+k*.055),0,TAU,bi_(.12),Math.max(1,u*.8));
-  bSpark(g, cx, cy-R*.565, R*.026);
-},
-// 08 Nico — o smearing e o manto
-(g,cx,cy,R,r)=>{
-  const u=R*.012;
-  for(let i=0;i<20;i++){
-    const x=cx-R*.86+r()*R*1.72, w=R*(.03+r()*.08), y1=cy-R*.86+r()*R*.5, y2=cy+R*(.35+r()*.55);
-    g.fillStyle="rgba(3,5,3,.93)"; g.fillRect(x,y1,w,y2-y1);
-  }
-  bd_(g,cx,cy,R*.46,"rgb(3,5,3)");
-  ba_(g,cx,cy,R*.46,0,TAU,br_(.90),Math.max(1,u*1.3));
-  ba_(g,cx,cy,R*.58,0,TAU,br_(.28),Math.max(1,u*.8));
-  for(let i=0;i<9;i++){ const th=i/9*TAU-Math.PI/2; bd_(g, cx+Math.cos(th)*R*.70, cy+Math.sin(th)*R*.70, R*.024, bi_(i?.30:.70)); }
-  bSpark(g, cx+R*.30, cy+R*.30, R*.024);
-},
-// 09 Nills — tirem isso de dentro
-(g,cx,cy,R,r)=>{
-  const u=R*.012;
-  for(let k=0;k<11;k++){ const t=k/10, rr=R*.88*Math.pow(1-t,1.7)+R*.05; ba_(g,cx,cy,rr,0,TAU,bi_(.18+t*.42),Math.max(1,u)); }
-  for(let k=0;k<7;k++){
-    const th=k/7*TAU+.2;
-    bl_(g, cx+Math.cos(th)*R*.10, cy+Math.sin(th)*R*.10, cx+Math.cos(th)*R*.95, cy+Math.sin(th)*R*.95, bi_(.10), Math.max(1,u*.8));
-  }
-  bSpark(g, cx+Math.cos(-2.35)*R*.46, cy+Math.sin(-2.35)*R*.46, R*.026);
-}
-];
-
-function drawSigil(cv){
-  const w = cv.clientWidth; if(!w) return;
-  const i = +cv.dataset.bsp;
-  const dpr = Math.min(window.devicePixelRatio||1, 2);
-  cv.width = Math.round(w*dpr); cv.height = Math.round(w*dpr);
-  const g = cv.getContext("2d");
-  g.setTransform(dpr,0,0,dpr,0,0);
-  g.clearRect(0,0,w,w);
-  const R = w*.37;
-  bDial(g, w/2, w/2, R);
-  BSIG[i](g, w/2, w/2, R, rng(4200+i*131));
-  cv.dataset.done = "1";
-}
-
 function draw(cv){
-  if("bsp" in cv.dataset) return drawSigil(cv);
   const i = +cv.dataset.era;
   const w = cv.clientWidth || cv.parentElement.clientWidth;
   const h = cv.clientHeight || cv.parentElement.clientHeight;
@@ -1559,11 +1311,211 @@ function draw(cv){
 })();
 
 /* ═══════════════════════════════════════════════════════════
+   TRANSMISSÃO — áudio ambiente gerado por código
+   Nenhuma gravação, nenhum arquivo: quatro osciladores, um
+   ruído filtrado (o vento de Trench), um pulso de 68 BPM e
+   sinos distantes com reverberação sintetizada. Cada era
+   afina o drone num intervalo diferente; 2025 volta ao
+   intervalo de 2009, porque a saga é um palíndromo.
+   Desligado por padrão — o áudio só existe se o leitor pedir.
+   ═══════════════════════════════════════════════════════════ */
+const AUDIO = (function(){
+  const BPM = 68, BEAT = 60/BPM, LOOK = 0.14, TICK = 30, VOL = 0.6;
+
+  // root em número MIDI + intervalos em semitons
+  const HOME  = { root:38, iv:[0,7,12,19] };                 // fora das eras
+  const MODES = [
+    { root:38, iv:[0,7,12,19] },   // 2009 · quintas abertas, hinário
+    { root:35, iv:[0,7,10,14] },   // 2011 · suspenso, aquoso
+    { root:33, iv:[0,7,12,15] },   // 2013 · menor, o recipiente
+    { root:41, iv:[0,6,7,13] },    // 2015 · trítono, o smearing
+    { root:38, iv:[0,7,12,16] },   // 2018 · maior, a brecha
+    { root:40, iv:[0,4,7,11] },    // 2021 · maior com sétima, propaganda bonita
+    { root:36, iv:[0,7,12,22] },   // 2024 · a travessia
+    { root:38, iv:[0,7,12,19] }    // 2025 · idêntico a 2009 — o ciclo fecha
+  ];
+  const mtof = m => 440*Math.pow(2,(m-69)/12);
+
+  let ctx=null, master=null, verb=null, droneFilt=null, voices=[];
+  let running=false, timer=null, nextT=0, step=0, cur=HOME;
+
+  function pinkBuffer(sec){
+    const n=Math.floor(ctx.sampleRate*sec), b=ctx.createBuffer(2,n,ctx.sampleRate);
+    for(let c=0;c<2;c++){ const d=b.getChannelData(c); let b0=0,b1=0,b2=0;
+      for(let i=0;i<n;i++){ const wn=Math.random()*2-1;
+        b0=0.99765*b0+wn*0.0990460; b1=0.96300*b1+wn*0.2965164; b2=0.57000*b2+wn*1.0526913;
+        d[i]=(b0+b1+b2+wn*0.1848)*0.16; } }
+    return b;
+  }
+  function impulse(sec,decay){
+    const n=Math.floor(ctx.sampleRate*sec), b=ctx.createBuffer(2,n,ctx.sampleRate);
+    for(let c=0;c<2;c++){ const d=b.getChannelData(c);
+      for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/n,decay); }
+    return b;
+  }
+
+  function build(){
+    master = ctx.createGain(); master.gain.value = 0;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value=-20; comp.knee.value=18; comp.ratio.value=4;
+    comp.attack.value=0.02; comp.release.value=0.35;
+    master.connect(comp); comp.connect(ctx.destination);
+
+    verb = ctx.createConvolver(); verb.buffer = impulse(3.6,2.6);
+    const verbG = ctx.createGain(); verbG.gain.value = 0.55;
+    verb.connect(verbG); verbG.connect(master);
+
+    // ── drone
+    droneFilt = ctx.createBiquadFilter();
+    droneFilt.type="lowpass"; droneFilt.frequency.value=420; droneFilt.Q.value=0.7;
+    const droneG = ctx.createGain(); droneG.gain.value=0.5;
+    droneFilt.connect(droneG); droneG.connect(master);
+    const dSend = ctx.createGain(); dSend.gain.value=0.22;
+    droneG.connect(dSend); dSend.connect(verb);
+
+    const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value=0.045;
+    const lfoG = ctx.createGain(); lfoG.gain.value=250;
+    lfo.connect(lfoG); lfoG.connect(droneFilt.frequency); lfo.start();
+
+    voices = [];
+    for(let i=0;i<4;i++){
+      const o = ctx.createOscillator();
+      o.type = i===0 ? "sine" : (i===3 ? "triangle" : "sawtooth");
+      const g = ctx.createGain();
+      g.gain.value = i===0 ? 0.085 : (i===3 ? 0.028 : 0.040);
+      o.frequency.value = mtof(cur.root + cur.iv[i % cur.iv.length]);
+      o.connect(g); g.connect(droneFilt);
+      const dl = ctx.createOscillator(); dl.frequency.value = 0.03 + i*0.017;
+      const dg = ctx.createGain(); dg.gain.value = 5 + i*2.5;
+      dl.connect(dg); dg.connect(o.detune); dl.start();
+      o.start();
+      voices.push(o);
+    }
+
+    // ── vento de Trench
+    const noise = ctx.createBufferSource();
+    noise.buffer = pinkBuffer(6); noise.loop = true;
+    const nf = ctx.createBiquadFilter();
+    nf.type="bandpass"; nf.frequency.value=520; nf.Q.value=0.9;
+    const nG = ctx.createGain(); nG.gain.value=0.15;
+    noise.connect(nf); nf.connect(nG); nG.connect(master);
+    const nSend = ctx.createGain(); nSend.gain.value=0.4;
+    nG.connect(nSend); nSend.connect(verb);
+    const nl = ctx.createOscillator(); nl.frequency.value=0.021;
+    const nlG = ctx.createGain(); nlG.gain.value=300;
+    nl.connect(nlG); nlG.connect(nf.frequency); nl.start();
+    noise.start();
+  }
+
+  function thump(t,amp){
+    const f = mtof(cur.root-12);
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type="sine";
+    o.frequency.setValueAtTime(f*2.4,t);
+    o.frequency.exponentialRampToValueAtTime(f,t+0.10);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(amp,t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.62);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t+0.7);
+  }
+
+  function bell(t){
+    const iv = cur.iv[Math.floor(Math.random()*cur.iv.length)];
+    const f = mtof(cur.root + iv + 24 + (Math.random()<0.3 ? 12 : 0));
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type="sine"; o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(0.05,t+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+4.5);
+    o.connect(g);
+    if(ctx.createStereoPanner){
+      const p = ctx.createStereoPanner();
+      p.pan.value = (Math.random()*2-1)*0.7;
+      g.connect(p); p.connect(master); p.connect(verb);
+    } else { g.connect(master); g.connect(verb); }
+    o.start(t); o.stop(t+4.8);
+  }
+
+  function sched(){
+    while(nextT < ctx.currentTime + LOOK){
+      const b = step % 8;
+      if(b===0){ thump(nextT,0.30); thump(nextT+BEAT*0.34,0.12); }
+      if(b===4){ thump(nextT,0.19); }
+      if(b===2 && Math.random()<0.42) bell(nextT+BEAT*Math.random()*0.5);
+      if(b===6 && Math.random()<0.22) bell(nextT+BEAT*Math.random()*0.5);
+      nextT += BEAT; step++;
+    }
+    timer = setTimeout(sched,TICK);
+  }
+
+  function tune(m,glide){
+    cur = m;
+    if(!ctx || !voices.length) return;
+    const t = ctx.currentTime, g = glide==null ? 2.6 : glide;
+    voices.forEach((o,i)=>{
+      const f = mtof(m.root + m.iv[i % m.iv.length]);
+      o.frequency.cancelScheduledValues(t);
+      o.frequency.setValueAtTime(Math.max(1,o.frequency.value),t);
+      o.frequency.exponentialRampToValueAtTime(f,t+g);
+    });
+  }
+
+  function fade(to,sec){
+    const t = ctx.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setValueAtTime(master.gain.value,t);
+    master.gain.linearRampToValueAtTime(to,t+sec);
+  }
+
+  return {
+    supported(){ return !!(window.AudioContext||window.webkitAudioContext); },
+    isOn(){ return running; },
+    era(i){ tune((i>=0 && MODES[i]) ? MODES[i] : HOME); },
+    toggle(){
+      if(!this.supported()) return Promise.resolve(false);
+      if(!ctx){
+        ctx = new (window.AudioContext||window.webkitAudioContext)();
+        build();
+      }
+      return ctx.resume().then(()=>{
+        if(running){
+          running = false;
+          fade(0,1.1);
+          clearTimeout(timer); timer=null;
+          setTimeout(()=>{ if(!running && ctx && ctx.state==="running") ctx.suspend(); },1400);
+          return false;
+        }
+        running = true;
+        nextT = ctx.currentTime + 0.12; step = 0;
+        fade(VOL,2.4);
+        sched();
+        return true;
+      });
+    },
+    visibility(hidden){
+      if(!ctx || !running) return;
+      if(hidden){
+        fade(0,0.5);
+        clearTimeout(timer); timer=null;
+        setTimeout(()=>{ if(document.hidden && running && ctx.state==="running") ctx.suspend(); },700);
+      } else {
+        ctx.resume().then(()=>{
+          nextT = ctx.currentTime + 0.12;
+          fade(VOL,1.6);
+          if(!timer) sched();
+        });
+      }
+    }
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
    NAVEGAÇÃO
    ═══════════════════════════════════════════════════════════ */
 
 const rail = $("#rail");
-const NAVS = [{id:"mapa",k:"navMapa"},{id:"bispos",k:"navBisp"}].concat(ALBUNS.map(a=>({id:"era-"+a.yr,l:a.yr}))).concat([{id:"cruz",k:"navCruz"},{id:"segredo",k:"navTese"}]);
+const NAVS = [{id:"mapa",k:"navMapa"}].concat(ALBUNS.map(a=>({id:"era-"+a.yr,l:a.yr}))).concat([{id:"cruz",k:"navCruz"},{id:"segredo",k:"navTese"}]);
 function buildRail(){
   rail.innerHTML="";
   NAVS.forEach(n=>{
@@ -1575,10 +1527,13 @@ function buildRail(){
 }
 
 const root=document.documentElement;
+let CURERA = -1;
 function setEra(a){
   root.style.setProperty("--bg",a?a.bg:"#0A0D0B");
   root.style.setProperty("--ink",a?a.ink:"#E8E3D9");
   root.style.setProperty("--accent",a?a.acc:"#FCE300");
+  const idx = a ? ALBUNS.indexOf(a) : -1;
+  if(idx !== CURERA){ CURERA = idx; AUDIO.era(idx); }
 }
 
 const spy = new IntersectionObserver(es=>{
@@ -1590,7 +1545,7 @@ const spy = new IntersectionObserver(es=>{
     if(active && innerWidth<=900) active.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
     const a=ALBUNS.find(x=>"era-"+x.yr===id);
     setEra(a||null);
-    const lbl = a ? a.yr+" · "+a.ttl : (id==="mapa"?U("navMapa"):id==="bispos"?U("whereBisp"):id==="cruz"?U("whereCruz"):U("whereTese"));
+    const lbl = a ? a.yr+" · "+a.ttl : (id==="mapa"?U("navMapa"):id==="cruz"?U("whereCruz"):U("whereTese"));
     $("#where").innerHTML = a? ("<em>"+a.yr+"</em> "+a.ttl) : lbl;
   });
 },{rootMargin:"-45% 0px -45% 0px"});
@@ -1618,29 +1573,20 @@ $("#loreBtn").addEventListener("click",e=>{
   document.body.classList.toggle("lore-only", !on);
 });
 
-/* código de violação: o dígito acende o bispo */
+// transmissão — o áudio só começa por gesto do leitor
 (function(){
-  const sec = document.getElementById("bispos"); if(!sec) return;
-  let stick = null;
-  function hi(i){
-    const grid = $("#bsp"), code = $("#bspcode"); if(!grid || !code) return;
-    grid.querySelectorAll(".bsp__i").forEach((c,k)=>c.classList.toggle("on", k===i));
-    if(i==null) grid.removeAttribute("data-hi"); else grid.dataset.hi = String(i);
-    code.querySelectorAll(".dig").forEach((b,k)=>b.setAttribute("aria-pressed", String(k===i)));
-  }
-  sec.addEventListener("pointerover", e=>{ const d=e.target.closest(".dig"); if(d && stick==null) hi(+d.dataset.i); });
-  sec.addEventListener("pointerout",  e=>{ if(e.target.closest(".dig") && stick==null) hi(null); });
-  sec.addEventListener("focusin",     e=>{ const d=e.target.closest(".dig"); if(d && stick==null) hi(+d.dataset.i); });
-  sec.addEventListener("click", e=>{
-    const d = e.target.closest(".dig"); if(!d) return;
-    const i = +d.dataset.i; stick = (stick===i) ? null : i; hi(stick);
+  const btn = $("#txBtn");
+  if(!btn) return;
+  if(!AUDIO.supported()){ btn.remove(); return; }
+  btn.addEventListener("click",()=>{
+    btn.disabled = true;
+    Promise.resolve(AUDIO.toggle())
+      .then(on=>{ btn.setAttribute("aria-pressed", String(!!on)); })
+      .catch(()=>{ btn.setAttribute("aria-pressed","false"); })
+      .then(()=>{ btn.disabled = false; });
   });
+  document.addEventListener("visibilitychange",()=>AUDIO.visibility(document.hidden));
 })();
-
-// os mostradores usam mono no E/S/W/N: redesenhar quando a fonte chegar
-if(document.fonts && document.fonts.ready){
-  document.fonts.ready.then(()=>{ document.querySelectorAll(".bsp__cv").forEach(c=>{ if(c.dataset.done) drawSigil(c); }); });
-}
 
 // navegação por teclado: ← → (ou J/K) saltam entre seções
 addEventListener("keydown",e=>{
@@ -1659,7 +1605,7 @@ addEventListener("keydown",e=>{
 
 // redesenhar em resize
 let rz; addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{
-  document.querySelectorAll(".era__cv, .bsp__cv").forEach(c=>{ if(c.dataset.done) draw(c); });
+  document.querySelectorAll(".era__cv").forEach(c=>{ if(c.dataset.done) draw(c); });
 },250); });
 
 /* ═══════════════════════════════════════════════════════════
@@ -1667,7 +1613,7 @@ let rz; addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{
    ═══════════════════════════════════════════════════════════ */
 function wireDynamic(){
   NAVS.forEach(n=>{ const t=document.getElementById(n.id); if(t) spy.observe(t); });
-  document.querySelectorAll(".era__cv, .bsp__cv").forEach(c=>lazy.observe(c));
+  document.querySelectorAll(".era__cv").forEach(c=>lazy.observe(c));
   document.querySelectorAll(".reveal").forEach(nd=>rev.observe(nd));
   const totalTrk=document.querySelectorAll(".trk").length;
   const loreTrk=document.querySelectorAll('.trk[data-lore="1"]').length;
